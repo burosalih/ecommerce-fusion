@@ -1,11 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { SidebarContext } from "../context/SidebarContext";
+import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { BsBag } from "react-icons/bs";
 
-const Header = () => {
-  const [isActive, setIsActive] = useState(false);
-  const footerRef = useRef(null);
+const Header = () => { 
+  const [isActive, setIsActive] = useState(false); //header stateovi ovaj je samo za estetiku
+  const { isOpen, setIsOpen } = useContext(SidebarContext); //state za otvorit korpu
+  const { itemAmount } = useContext(CartContext); //za broj artikala u korpi
 
+  
   useEffect(() => {
     window.addEventListener("scroll", () => {
       window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
@@ -43,10 +47,13 @@ const Header = () => {
         <Link to={"#"} onClick={scrollToFooter} className="font-primary text-white">
           Recenzije
         </Link>
-        <div className="cursor-pointer flex relative">
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="cursor-pointer flex relative"
+        >
           <BsBag className="text-2xl text-white" />
           <div className="bg-red-500 absolute -right-2 -top-2 text-[12px] w-[18px] h-[18px] text-white rounded-full flex justify-center items-center">
-            0
+            {itemAmount}
           </div>
         </div>
       </div>
