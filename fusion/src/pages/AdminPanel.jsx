@@ -7,6 +7,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 function AdminPanel() {
   const { products } = useContext(ProductContext);
   const { orders } = useContext(OrdersContext);
+  console.log(orders.narudzbe);
   const [activeView, setActiveView] = useState("products");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
