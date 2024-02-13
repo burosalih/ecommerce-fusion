@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
-      <section className="py-0">
+      <section className="py-20">
         <div className="container mx-auto">
           <h1 className="text-3xl font-semibold mb-10 text-center">
             Explore our shop
