@@ -159,15 +159,14 @@ function AdminPanel() {
               <ul className="overflow-auto">
                 {orders.map((order) => (
                   <li
-                    key={order.id}
+                    key={order._id}
                     className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
                   >
-                    <div>ID Narudžbe : {order.id}</div>
+                    <div>ID Narudžbe : {order._id}</div>
                     <div>Ime : {order.ime}</div>
-                    <div>Prezime : {order.prezime}</div>
                     <div>Broj telefona : {order.broj}</div>
                     <div>Adresa : {order.adresa}</div>
-                    <div>Ukupna cijena: {order.ukupno} KM</div>
+                    <div>Ukupna cijena: {order.cijena} KM</div>
                     <button
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md"
                     >

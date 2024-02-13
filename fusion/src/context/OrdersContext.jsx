@@ -8,7 +8,7 @@ const OrdersProvider = ({ children }) => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/todos"); //treba dodat poziv za narudzbe iz nase baze
+        const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe.json"); //treba dodat poziv za narudzbe iz nase baze
         const data = await response.json();
         setOrders(data);
       } catch (error) {
