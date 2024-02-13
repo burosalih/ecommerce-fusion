@@ -8,7 +8,7 @@ const ProductProvider = ({ children }) => {
   // ovdje vi morate svoj api povezat, ja sam stavio samo fetch s nekog fake storea da vidim jel radi sve kako treba
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("https://fakestoreapi.com/products");
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/0/proizvodi.json");
       const data = await response.json();
       setProducts(data);
     };
