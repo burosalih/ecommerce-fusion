@@ -6,7 +6,7 @@ import { CartContext } from "../context/CartContext";
 const Product = ({ product }) => {
   const { addToCart } = useContext(CartContext);
 
-  const { _id, slika, naziv, opis, cijena } = product;
+  const { _id, slika, naziv, cijena } = product;
 
   return (
     <div>
@@ -38,7 +38,6 @@ const Product = ({ product }) => {
         <Link to={`/product/${_id}`}>
           <h2 className="font-semibold mb-1">{naziv}</h2>
         </Link>
-        <p>{opis}</p>
         <h2 className="font-semibbold">{cijena} KM</h2>
       </div>
     </div>
