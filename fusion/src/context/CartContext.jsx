@@ -13,7 +13,7 @@ const CartProvider = ({ children }) => {
   //ovdje racunam ukupnu cijenu
   useEffect(() => {
     const total = cart.reduce((accumulator, currentItem) => {
-      return accumulator + currentItem.price * currentItem.amount;
+      return accumulator + currentItem.cijena * currentItem.amount;
     }, 0);
     setTotal(total);
   });
@@ -30,14 +30,19 @@ const CartProvider = ({ children }) => {
 
   // dodavanje artikla u korpu
   const addToCart = (product, id) => {
+    console.log(product);
+    
     const newItem = { ...product, amount: 1 };
+    
     // ovdje provjerim jel ima vec artikal u korpi i dole u ifu dodam samo +1 ako ga nadje
     const cartItem = cart.find((item) => {
-      return item.id === id;
+      
+      return item._id === product._id;
     });
+    
     if (cartItem) {
       const newCart = [...cart].map((item) => {
-        if (item.id === id) {
+        if (item._id === product._id) {
           return { ...item, amount: cartItem.amount + 1 };
         } else return item;
       });

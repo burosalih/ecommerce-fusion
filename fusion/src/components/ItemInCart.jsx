@@ -9,13 +9,13 @@ const CartItem = ({ item }) => {
   const { removeFromCart, increaseAmount, decreaseAmount } =
     useContext(CartContext);
   // rastavljanje artikla 
-  const { id, title, image, price, amount } = item;
+  const { id, naziv, slika, cijena, amount } = item;
 
   return (
     <div className="flex gap-x-4 py-2 lg:px-6 border-b border-gray-200 w-full font-light text-gray-500">
       <div className="w-full min-h-[150px] flex items-center gap-x-4">
         <Link to={`/product/${id}`}>
-          <img className="max-w-[80px]" src={image} alt="" /> {/* ovdje slika artikla */}
+          <img className="max-w-[80px]" src={slika} alt="" /> {/* ovdje slika artikla */}
         </Link>
         <div className="w-full flex flex-col">
           {/* ime artikla i ikona za uklonit (u istom su redu) */}
@@ -25,7 +25,7 @@ const CartItem = ({ item }) => {
               to={`/product/${id}`}
               className="text-sm uppercase font-medium max-w-[240px] text-black hover:underline"
             >
-              {title}
+              {naziv}
             </Link>
             <div
               onClick={() => removeFromCart(id)}
@@ -55,11 +55,11 @@ const CartItem = ({ item }) => {
             </div>
             {/* cijena jednog artikla */}
             <div className="flex flex-1 justify-around items-center">
-              KM {price}
+              KM {cijena}
             </div>
             {/* ukupna cijena */}
             <div className="flex flex-1 justify-end items-center text-black font-medium">{`KM ${parseFloat(
-              price * amount
+              cijena * amount
             ).toFixed(2)}`}</div>
           </div>
         </div>
