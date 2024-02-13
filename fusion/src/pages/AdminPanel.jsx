@@ -10,6 +10,7 @@ function AdminPanel() {
   const [activeView, setActiveView] = useState("products");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
+  
   const [newProduct, setNewProduct] = useState({
     ime: "",
     cijena: "",
@@ -25,14 +26,30 @@ function AdminPanel() {
     setIsAddProductFormOpen(true);
   };
 
-  const handleAddProductFormSubmit = () => {
+  const handleAddProductFormSubmit = async() => {
     console.log("Novi artikal:", newProduct);
     setIsAddProductFormOpen(false);
-    setNewProduct({
-      ime: "",
-      cijena: "",
-      opis: ""
-    });
+    
+    try {
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newProduct)
+      });
+
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error('Neuspješan zahtjev za dodavanje proizvoda');
+      }
+   
+    
+    } catch (error) {
+      console.error('Greška prilikom dodavanja proizvoda:', error);
+      
+    }
   };
 
   const handleDeleteProduct = (productId) => {
@@ -93,35 +110,35 @@ function AdminPanel() {
               >
                 Dodaj Artikal
               </button>
-              {/*eo dole u ovim inputima sam malo radio to dodavanje al moras ti prepravit */}
+              {}
               {isAddProductFormOpen && (
                 <div className="mb-4">
                   <input
                     type="text"
                     placeholder="Naziv"
-                    value={newProduct.name}
+                    value={newProduct.ime}
                     onChange={(e) =>
-                      setNewProduct({ ...newProduct, name: e.target.value })
+                      setNewProduct({ ...newProduct, ime: e.target.value })
                     }
                     className="border border-gray-400 px-2 py-1 mr-2 mb-2 rounded-lg"
                   />
                   <input
                     type="text"
                     placeholder="Cijena"
-                    value={newProduct.price}
+                    value={newProduct.cijena}
                     onChange={(e) =>
-                      setNewProduct({ ...newProduct, price: e.target.value })
+                      setNewProduct({ ...newProduct, cijena: e.target.value })
                     }
                     className="border border-gray-400 px-2 py-1 mr-2 mb-2 rounded-lg"
                   />
                   <input
                     type="text"
                     placeholder="Opis"
-                    value={newProduct.description}
+                    value={newProduct.opis}
                     onChange={(e) =>
                       setNewProduct({
                         ...newProduct,
-                        description: e.target.value
+                        opis: e.target.value
                       })
                     }
                     className="border border-gray-400 px-2 py-1 mr-2 rounded-lg"
