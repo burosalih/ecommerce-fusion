@@ -6,7 +6,7 @@ const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/0/proizvodi.json");
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json");
       const data = await response.json();
       setProducts(data);
     };
