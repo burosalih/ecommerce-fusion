@@ -21,6 +21,7 @@ function App() {
               <>
                 <Header />
                 <Home />
+                <Footer />
               </>
             }
           />
@@ -30,6 +31,7 @@ function App() {
               <>
                 <Header />
                 <ProductDetails />
+                <Footer />
               </>
             }
           />
@@ -37,7 +39,6 @@ function App() {
           <Route path="/adminpanel" element={<AdminPanel />} />
         </Routes>
         <Sidebar />
-        <Footer />
       </Router>
     </div>
   );
