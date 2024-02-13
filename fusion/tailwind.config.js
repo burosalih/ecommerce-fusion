@@ -9,7 +9,7 @@ module.exports = {
         primary: ['"Montserrat"'],
       },
       colors: {
-        primary: '#0047AB',
+        primary: '#50C878',
         secondary: '#F5E6E0',
       },
     },
