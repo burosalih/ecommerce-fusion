@@ -13,7 +13,8 @@ function AdminPanel() {
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
   
   const [newProduct, setNewProduct] = useState({
-    ime: "",
+    _id:"",
+    naziv: "",
     cijena: "",
     opis: ""
   });
@@ -27,31 +28,48 @@ function AdminPanel() {
     setIsAddProductFormOpen(true);
   };
 
-  const handleAddProductFormSubmit = async() => {
+  const handleAddProductFormSubmit = async () => {
     console.log("Novi artikal:", newProduct);
     setIsAddProductFormOpen(false);
-    
+  
     try {
-      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json", {
-        method: "POST",
+      // Dohvati sve proizvode iz baze podataka
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json");
+      const data = await response.json();
+  
+      // Pronađi maksimalni ključ
+      let maxKey = 0;
+      for (const key in data) {
+        const currentKey = parseInt(key);
+        if (currentKey > maxKey) {
+          maxKey = currentKey;
+        }
+      }
+  
+      // Inkrementiraj maksimalni ključ za novi proizvod
+      const newKey = maxKey + 1;
+      newProduct._id=newKey;
+  
+      // Dodaj novi proizvod sa inkrementiranim ključem u bazu podataka
+      const responseAdd = await fetch(`https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${newKey}.json`, {
+        method: "PUT", // Koristi PUT metodu za ažuriranje
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(newProduct)
       });
-
-      console.log(response);
-
-      if (!response.ok) {
+  
+      if (!responseAdd.ok) {
         throw new Error('Neuspješan zahtjev za dodavanje proizvoda');
       }
-   
-    
+  
+      console.log("Uspješno dodan proizvod sa ključem:", newKey);
+  
     } catch (error) {
       console.error('Greška prilikom dodavanja proizvoda:', error);
-      
     }
   };
+  
 
   const handleDeleteProduct = (productId) => {
     //ovdje dodat logiku za brisanje
@@ -117,9 +135,9 @@ function AdminPanel() {
                   <input
                     type="text"
                     placeholder="Naziv"
-                    value={newProduct.ime}
+                    value={newProduct.naziv}
                     onChange={(e) =>
-                      setNewProduct({ ...newProduct, ime: e.target.value })
+                      setNewProduct({ ...newProduct, naziv: e.target.value })
                     }
                     className="border border-gray-400 px-2 py-1 mr-2 mb-2 rounded-lg"
                   />
