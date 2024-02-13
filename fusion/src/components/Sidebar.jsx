@@ -21,7 +21,7 @@ const Sidebar = () => {
     >
       <div className="flex items-center justify-between py-6 border-b">
         <div className="uppercase text-sm font-semibold">
-          Shopping Bag ({itemAmount})
+          Korpa ({itemAmount})
         </div>
         <div
           onClick={handleClose}
@@ -38,7 +38,7 @@ const Sidebar = () => {
       <div className="flex flex-col gap-y-3  mt-4">
         <div className="flex w-full justify-between items-center">
           <div className="font-semibold">
-            <span className="mr-2">Subtotal:</span>KM {" "}
+            <span className="mr-2">Ukupno:</span>KM {" "}
             {parseFloat(total).toFixed(2)}
           </div>
           <div
@@ -50,15 +50,9 @@ const Sidebar = () => {
         </div>
         <Link
           to={"/"}
-          className="bg-gray-200 flex p-3 justify-center items-center text-black w-full font-medium hover:bg-gray-300 duration-300"
-        >
-          View Cart
-        </Link>
-        <Link
-          to={"/"}
           className="bg-primary flex p-3 justify-center items-center text-white w-full font-medium hover:bg-black duration-500"
         >
-          Checkout
+          Naruči
         </Link>
       </div>
     </div>

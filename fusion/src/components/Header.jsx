@@ -32,10 +32,10 @@ const Header = () => {
           Home
         </Link>
         <Link to={"/"} className="font-primary text-white">
-          Contact
+          Kontakt
         </Link>
         <Link to={"/"} className="font-primary text-white">
-          Blog
+          Recenzije
         </Link>
         {/* korpa */}
         <div
