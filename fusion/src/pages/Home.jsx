@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import { ProductContext } from "../context/ProductContext";
 import Product from "../components/Product";
 import Hero from "../components/HeroSection";
+import CustomerReviews from "../components/CustomerReview";
 
 const Home = () => {
   const { products } = useContext(ProductContext);
 
+  
   return (
     <div>
       <Hero />
@@ -22,6 +24,10 @@ const Home = () => {
             })}
           </div>
         </div>
+      </section>
+      
+      <section className='bg-pale-blue padding py-20'>
+        <CustomerReviews />
       </section>
     </div>
   );

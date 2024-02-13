@@ -30,7 +30,7 @@ const CartProvider = ({ children }) => {
 
   // dodavanje artikla u korpu
   const addToCart = (product, id) => {
-    console.log(product);
+   
     
     const newItem = { ...product, amount: 1 };
     
@@ -54,8 +54,9 @@ const CartProvider = ({ children }) => {
 
   // izbacivanje iz korpe
   const removeFromCart = (id) => {
+    console.log(id);
     const newCart = cart.filter((item) => {
-      return item.id !== id;
+      return item._id !== id;
     });
     setCart(newCart);
   };
@@ -67,16 +68,17 @@ const CartProvider = ({ children }) => {
 
   // povecavanje kolicine artikla
   const increaseAmount = (id) => {
-    const cartItem = cart.find((item) => item.id === id);
+    const cartItem = cart.find((item) => item._id === id);
     addToCart(cartItem, id);
   };
 
   // smanjivanje kolicine artikla
   const decreaseAmount = (id) => {
-    const cartItem = cart.find((item) => item.id === id);
+    console.log(id);
+    const cartItem = cart.find((item) => item._id === id);
     if (cartItem) {
       const newCart = cart.map((item) => {
-        if (item.id === id) {
+        if (item._id === id) {
           return { ...item, amount: cartItem.amount - 1 };
         } else {
           return item;
