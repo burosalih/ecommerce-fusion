@@ -34,7 +34,7 @@ const Hero = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          filter: "blur(10px)" // Dodajemo zamućenje samo na pozadinsku sliku
+          filter: "blur(10px)" 
         }}
       ></div>
 

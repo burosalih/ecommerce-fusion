@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../context/ProductContext";
 import { OrdersContext } from "../context/OrdersContext";
 import { AiOutlineMenu } from "react-icons/ai";
 
 function AdminPanel() {
-  const { products } = useContext(ProductContext);
+  const { products , setProducts} = useContext(ProductContext);
   const { orders } = useContext(OrdersContext);
   console.log(orders.narudzbe);
   const [activeView, setActiveView] = useState("products");
@@ -62,7 +62,7 @@ function AdminPanel() {
       if (!responseAdd.ok) {
         throw new Error('Neuspješan zahtjev za dodavanje proizvoda');
       }
-  
+      fetchProducts();
       console.log("Uspješno dodan proizvod sa ključem:", newKey);
   
     } catch (error) {
@@ -71,13 +71,50 @@ function AdminPanel() {
   };
   
 
-  const handleDeleteProduct = (productId) => {
-    //ovdje dodat logiku za brisanje
+  const handleDeleteProduct = async(productId) => {
+    try {
+      
+      const url = `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${productId}.json`;
+  
+     
+      const response = await fetch(url, {
+        method: "DELETE"
+      }); 
+
+      
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('Neuspješan zahtjev za brisanje proizvoda');
+      }
+  
+      fetchProducts();
+      console.log('Proizvod je uspešno obrisan.');
+  
+    } catch (error) {
+      console.error('Greška prilikom brisanja proizvoda:', error);
+    
+    }
+
   };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json");
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Greška prilikom dohvatanja proizvoda:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+ 
 
   return (
     <div className="flex h-screen">
@@ -173,13 +210,13 @@ function AdminPanel() {
               <ul>
                 {products.map((product) => (
                   <li
-                    key={product.id}
+                    key={product._id}
                     className="flex justify-between items-center border-b py-2"
                   >
                     <img src={product.slika} className="w-10 h-10" />
                     <div>{product.naziv}</div>
                     <button
-                      onClick={() => handleDeleteProduct(product.id)}
+                      onClick={() => handleDeleteProduct(product._id)}
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md"
                     >
                       Obriši

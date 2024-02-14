@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
@@ -11,6 +12,12 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true); 
+  };
+
   return (
     <div className="overflow-hidden">
       <Router>
@@ -35,8 +42,11 @@ function App() {
               </>
             }
           />
-          <Route path="/login" element={<Login />} />
-          <Route path="/adminpanel" element={<AdminPanel />} />
+          <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+          <Route
+            path="/adminpanel"
+            element={isLoggedIn ? <AdminPanel /> : <Navigate to="/login" />}
+          />
         </Routes>
         <Sidebar />
       </Router>
