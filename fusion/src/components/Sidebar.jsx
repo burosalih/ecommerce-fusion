@@ -23,29 +23,55 @@ const Sidebar = () => {
 
   const handleSubmitOrder = async () => {
     const orderData = {
+      _id: '',
       ime,
       brojTel,
       adresa,
-      items: cart,
-      totalPrice: total,
+      proizvodi: cart.map(item => ({ 
+        naziv: item.naziv, 
+        kolicina: item.amount 
+      })),
+      cijena: total,
     };
-    try {
-      const response = await fetch("YOUR_BACKEND_ENDPOINT", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
+    
+    console.log("Nova narudžba:", orderData);
 
-      if (response.ok) {
-        clearCart();
-        alert("Narudzba uspjesna!");
-      } else {
-        console.error("Neuspjesna narudzba:", response.statusText);
+  
+    try {
+      // Dohvati sve narudžbe iz baze podataka
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe.json");
+      const data = await response.json();
+  
+      // Pronađi maksimalni ključ
+      let maxKey = 0;
+      for (const key in data) {
+        const currentKey = parseInt(key);
+        if (currentKey > maxKey) {
+          maxKey = currentKey;
+        }
       }
+  
+      // Inkrementiraj maksimalni ključ za novu narudžbu
+      const newKey = maxKey + 1;
+      orderData._id = newKey;
+  
+      // Dodaj novu narudžbu sa inkrementiranim ključem u bazu podataka
+      const responseAdd = await fetch(`https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe/${newKey}.json`, {
+        method: "PUT", // Koristi PUT metodu za ažuriranje
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+      });
+  
+      if (!responseAdd.ok) {
+        throw new Error('Neuspješan zahtjev za kreiranje narudžbe');
+      }
+  
+      console.log("Uspješno kreirana narudžba sa ključem:", newKey);
+  
     } catch (error) {
-      console.error("ERROR:", error);
+      console.error('Greška prilikom kreiranja narudžbe:', error);
     }
   };
 
