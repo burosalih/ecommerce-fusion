@@ -11,9 +11,9 @@ function AdminPanel() {
   const [activeView, setActiveView] = useState("products");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
-  
+
   const [newProduct, setNewProduct] = useState({
-    _id:"",
+    _id: "",
     naziv: "",
     cijena: "",
     opis: ""
@@ -31,12 +31,12 @@ function AdminPanel() {
   const handleAddProductFormSubmit = async () => {
     console.log("Novi artikal:", newProduct);
     setIsAddProductFormOpen(false);
-  
+
     try {
       // Dohvati sve proizvode iz baze podataka
       const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json");
       const data = await response.json();
-  
+
       // Pronađi maksimalni ključ
       let maxKey = 0;
       for (const key in data) {
@@ -45,11 +45,11 @@ function AdminPanel() {
           maxKey = currentKey;
         }
       }
-  
+
       // Inkrementiraj maksimalni ključ za novi proizvod
       const newKey = maxKey + 1;
-      newProduct._id=newKey;
-  
+      newProduct._id = newKey;
+
       // Dodaj novi proizvod sa inkrementiranim ključem u bazu podataka
       const responseAdd = await fetch(`https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${newKey}.json`, {
         method: "PUT", // Koristi PUT metodu za ažuriranje
@@ -58,18 +58,18 @@ function AdminPanel() {
         },
         body: JSON.stringify(newProduct)
       });
-  
+
       if (!responseAdd.ok) {
         throw new Error('Neuspješan zahtjev za dodavanje proizvoda');
       }
-  
+
       console.log("Uspješno dodan proizvod sa ključem:", newKey);
-  
+
     } catch (error) {
       console.error('Greška prilikom dodavanja proizvoda:', error);
     }
   };
-  
+
 
   const handleDeleteProduct = (productId) => {
     //ovdje dodat logiku za brisanje
@@ -129,7 +129,7 @@ function AdminPanel() {
               >
                 Dodaj Artikal
               </button>
-              {}
+              { }
               {isAddProductFormOpen && (
                 <div className="mb-4">
                   <input
@@ -189,30 +189,39 @@ function AdminPanel() {
               </ul>
             </>
           )}
-          {activeView === "orders" && (
-            <div>
-              <h1 className="text-3xl font-bold mb-4">Narudžbe</h1>
-              <ul className="overflow-auto">
-                {orders.map((order) => (
-                  <li
-                    key={order._id}
-                    className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
-                  >
-                    <div>ID Narudžbe : {order._id}</div>
-                    <div>Ime : {order.ime}</div>
-                    <div>Broj telefona : {order.broj}</div>
-                    <div>Adresa : {order.adresa}</div>
-                    <div>Ukupna cijena: {order.cijena} KM</div>
-                    <button
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md"
-                    >
-                      Obriši narudžbu
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+         {activeView === "orders" && (
+  <div>
+    <h1 className="text-3xl font-bold mb-4">Narudžbe</h1>
+    <ul className="overflow-auto">
+      {orders.map((order) => (
+        <li
+          key={order._id}
+          className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
+        >
+          <div>ID Narudžbe: {order._id}</div>
+          <div>Ime: {order.ime}</div>
+          <div>Broj telefona: {order.broj}</div>
+          <div>Adresa: {order.adresa}</div>
+          <div>Ukupna cijena: {order.cijena} KM</div>
+          <div>Proizvodi:</div>
+          <ul>
+            {order.proizvodi.map((item, index) => (
+              <li key={index}>
+                Naziv: {item.naziv}, Količina: {item.kolicina}
+              </li>
+            ))}
+          </ul>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md"
+          >
+            Obriši narudžbu
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
         </div>
       </div>
     </div>
