@@ -38,10 +38,10 @@ const Hero = () => {
             <span className="font-light text-3xl">Mjesto za ispunjenje vaših najdubljih želja</span>
           </h1>
           {showButtons && (
-            <div className="space-x-8 mt-8">
+            <div className="space-x-2 sm:space-x-8 mt-8 flex-col sm:flex-row">
               <Link
                 to={"/products"}
-                className="uppercase font-semibold border-b-2 border-primary px-8 py-4 text-lg text-green-500 hover:text-white hover:bg-green-500 transition-all duration-300 rounded-md bg-white border-green-500"
+                className="uppercase font-semibold border-b-2 border-primary px-8 py-4 text-lg text-green-500 hover:text-white hover:bg-green-500 transition-all duration-300 rounded-md bg-white"
               >
                 Pogledaj artikle
               </Link>
