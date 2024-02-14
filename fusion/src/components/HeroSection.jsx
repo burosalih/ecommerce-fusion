@@ -1,11 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-
-
-const Hero = () => {
+const Hero = ({ scrollToProducts }) => { 
   const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
@@ -15,6 +10,11 @@ const Hero = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const scrollToFooter = () => {
+    const footer = document.getElementById("footer");
+    footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <section
@@ -51,18 +51,18 @@ const Hero = () => {
           </h1>
           {showButtons && (
             <div className="space-x-2 sm:space-x-8 mt-8 flex-col sm:flex-row">
-              <Link
-                to={"/products"}
-                className="uppercase font-semibold border-b-2 border-primary px-8 py-4 text-lg text-green-500 hover:text-white hover:bg-green-500 transition-all duration-300 rounded-md bg-white"
+              <button
+                onClick={scrollToProducts}
+                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-green-500 hover:text-white hover:bg-green-500 transition-all duration-300 rounded-md bg-white"
               >
                 Pogledaj artikle
-              </Link>
-              <Link
-                to={"/contact"}
-                className="uppercase font-semibold border-b-2 border-primary px-8 py-4 text-lg text-white hover:text-green-500 hover:bg-white transition-all duration-300 rounded-md bg-green-500 border-transparent"
+              </button>
+              <button
+                onClick={scrollToFooter}
+                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-white hover:text-green-500 hover:bg-white transition-all duration-300 rounded-md bg-green-500 border-transparent"
               >
                 Kontakt
-              </Link>
+              </button>
             </div>
           )}
         </div>
