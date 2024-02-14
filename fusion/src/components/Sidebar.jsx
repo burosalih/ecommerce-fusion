@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext , useState } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -8,10 +8,56 @@ import { FiTrash2 } from "react-icons/fi";
 import CartItem from "./ItemInCart";
 import { SidebarContext } from "../context/SidebarContext";
 import { CartContext } from "../context/CartContext";
+import CheckoutForm from "./CheckoutForm";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext); //context za otvaranje zatvaranje sidebara
   const { cart, clearCart, itemAmount, total } = useContext(CartContext); //contexti za manipulaciju korpe
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+
+  const handleFullNameChange = (event) => setFullName(event.target.value);
+  const handlePhoneNumberChange = (event) => setPhoneNumber(event.target.value);
+  const handleAddressChange = (event) => setAddress(event.target.value);
+  const handleOrderClick = () => {
+    setShowCheckoutForm(true);
+  };
+
+  const handleSubmitOrder = async () => {
+    // Gather order data
+    const orderData = {
+      fullName,
+      phoneNumber,
+      address,
+      items: cart, // Assuming cart contains item details
+      totalPrice: total // Assuming total contains the total price
+    };
+    try {
+      // Send order data to backend
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+      });
+  
+      if (response.ok) {
+        // Order successfully submitted, perform any necessary actions (clear cart, display confirmation message, etc.)
+        clearCart();
+        // Display confirmation message to the user
+        alert("Order placed successfully!");
+      } else {
+        // Handle error response from server
+        console.error("Failed to submit order:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    }
+  };
+
 
   return (
     <div
@@ -48,12 +94,21 @@ const Sidebar = () => {
             <FiTrash2 />
           </div>
         </div>
-        <Link
-          to={"/"}
-          className="bg-primary flex p-3 justify-center items-center text-white w-full font-medium hover:bg-black duration-500"
-        >
+        <button onClick={handleOrderClick} className="bg-primary flex p-3 justify-center items-center text-white w-full font-medium hover:bg-black duration-500">
           Naruči
-        </Link>
+        </button>
+        {/* Render the CheckoutForm component conditionally based on showCheckoutForm state */}
+        {showCheckoutForm && (
+          <CheckoutForm
+            fullName={fullName}
+            phoneNumber={phoneNumber}
+            address={address}
+            onFullNameChange={handleFullNameChange}
+            onPhoneNumberChange={handlePhoneNumberChange}
+            onAddressChange={handleAddressChange}
+            onSubmit={handleSubmitOrder}
+          />
+        )}
       </div>
     </div>
   );
