@@ -1,69 +1,59 @@
-import React, { useContext , useState } from "react";
-
-import { Link } from "react-router-dom";
-
+import React, { useContext, useState } from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { FiTrash2 } from "react-icons/fi";
-
 import CartItem from "./ItemInCart";
 import { SidebarContext } from "../context/SidebarContext";
 import { CartContext } from "../context/CartContext";
 import CheckoutForm from "./CheckoutForm";
 
 const Sidebar = () => {
-  const { isOpen, handleClose } = useContext(SidebarContext); //context za otvaranje zatvaranje sidebara
-  const { cart, clearCart, itemAmount, total } = useContext(CartContext); //contexti za manipulaciju korpe
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
+  const { isOpen, handleClose } = useContext(SidebarContext);
+  const { cart, clearCart, itemAmount, total } = useContext(CartContext);
+  const [ime, setIme] = useState("");
+  const [brojTel, setBrojTel] = useState("");
+  const [adresa, setAdresa] = useState("");
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
 
-  const handleFullNameChange = (event) => setFullName(event.target.value);
-  const handlePhoneNumberChange = (event) => setPhoneNumber(event.target.value);
-  const handleAddressChange = (event) => setAddress(event.target.value);
+  const handleImeChange = (event) => setIme(event.target.value);
+  const handleBrojTelChange = (event) => setBrojTel(event.target.value);
+  const handleAdresaChange = (event) => setAdresa(event.target.value);
   const handleOrderClick = () => {
     setShowCheckoutForm(true);
   };
 
   const handleSubmitOrder = async () => {
-    // Gather order data
     const orderData = {
-      fullName,
-      phoneNumber,
-      address,
-      items: cart, // Assuming cart contains item details
-      totalPrice: total // Assuming total contains the total price
+      ime,
+      brojTel,
+      adresa,
+      items: cart,
+      totalPrice: total,
     };
     try {
-      // Send order data to backend
-      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe.json", {
+      const response = await fetch("YOUR_BACKEND_ENDPOINT", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(orderData)
+        body: JSON.stringify(orderData),
       });
-  
+
       if (response.ok) {
-        // Order successfully submitted, perform any necessary actions (clear cart, display confirmation message, etc.)
         clearCart();
-        // Display confirmation message to the user
-        alert("Order placed successfully!");
+        alert("Narudzba uspjesna!");
       } else {
-        // Handle error response from server
-        console.error("Failed to submit order:", response.statusText);
+        console.error("Neuspjesna narudzba:", response.statusText);
       }
     } catch (error) {
-      console.error("Error submitting order:", error);
+      console.error("ERROR:", error);
     }
   };
-
 
   return (
     <div
       className={`${
         isOpen ? "right-0" : "-right-full"
-      } " w-[300px] bg-white fixed top-0 h-full shadow-2xl md:w-[35vw] lg:w-[40vw] xl:max-w-[30vw] transition-all duration-300 z-20 px-4 lg:px-[35px]"`}
+      } w-[300px] bg-white fixed top-0 h-full shadow-2xl md:w-[35vw] lg:w-[40vw] xl:max-w-[30vw] transition-all duration-300 z-20 px-4 lg:px-[35px]`}
     >
       <div className="flex items-center justify-between py-6 border-b">
         <div className="uppercase text-sm font-semibold">
@@ -81,10 +71,10 @@ const Sidebar = () => {
           return <CartItem item={item} key={item.id} />;
         })}
       </div>
-      <div className="flex flex-col gap-y-3  mt-4">
+      <div className="flex flex-col gap-y-3 mt-4 overflow-y-auto" style={{ maxHeight: "calc(100vh - 400px)" }}>
         <div className="flex w-full justify-between items-center">
           <div className="font-semibold">
-            <span className="mr-2">Ukupno:</span>KM {" "}
+            <span className="mr-2">Ukupno:</span>KM{" "}
             {parseFloat(total).toFixed(2)}
           </div>
           <div
@@ -94,18 +84,20 @@ const Sidebar = () => {
             <FiTrash2 />
           </div>
         </div>
-        <button onClick={handleOrderClick} className="bg-primary flex p-3 justify-center items-center text-white w-full font-medium hover:bg-black duration-500">
+        <button
+          onClick={handleOrderClick}
+          className="bg-primary flex p-3 justify-center items-center text-white w-full font-medium hover:bg-black duration-500"
+        >
           Naruči
         </button>
-        {/* Render the CheckoutForm component conditionally based on showCheckoutForm state */}
         {showCheckoutForm && (
           <CheckoutForm
-            fullName={fullName}
-            phoneNumber={phoneNumber}
-            address={address}
-            onFullNameChange={handleFullNameChange}
-            onPhoneNumberChange={handlePhoneNumberChange}
-            onAddressChange={handleAddressChange}
+            ime={ime}
+            brojTel={brojTel}
+            adresa={adresa}
+            onimeChange={handleImeChange}
+            onbrojTelChange={handleBrojTelChange}
+            onadresaChange={handleAdresaChange}
             onSubmit={handleSubmitOrder}
           />
         )}
