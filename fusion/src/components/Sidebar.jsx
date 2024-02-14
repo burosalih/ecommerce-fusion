@@ -71,7 +71,7 @@ const Sidebar = () => {
           return <CartItem item={item} key={item.id} />;
         })}
       </div>
-      <div className="flex flex-col gap-y-3 mt-4 overflow-y-auto" style={{ maxHeight: "calc(100vh - 400px)" }}>
+      <div className="flex flex-col gap-y-3 mt-4 overflow-y-auto" style={{ maxHeight: "calc(100vh - 500px)" }}>
         <div className="flex w-full justify-between items-center">
           <div className="font-semibold">
             <span className="mr-2">Ukupno:</span>KM{" "}

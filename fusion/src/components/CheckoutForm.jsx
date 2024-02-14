@@ -56,7 +56,7 @@ const CheckoutForm = ({
       </div>
       <button
         onClick={onSubmit}
-        className="bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300 overflow-y-auto"
+        className="bg-primary text-white py-2 px-4 rounded-md hover:bg-black transition duration-300 overflow-y-auto"
       >
         Potvrdi narudžbu
       </button>
