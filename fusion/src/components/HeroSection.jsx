@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const Hero = ({ scrollToProducts }) => { 
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+
+
+const Hero = () => {
   const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
@@ -10,11 +15,6 @@ const Hero = ({ scrollToProducts }) => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  const scrollToFooter = () => {
-    const footer = document.getElementById("footer");
-    footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   return (
     <section
@@ -34,7 +34,7 @@ const Hero = ({ scrollToProducts }) => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          filter: "blur(10px)" // Dodajemo zamućenje samo na pozadinsku sliku
+          filter: "blur(10px)" 
         }}
       ></div>
 
@@ -50,19 +50,19 @@ const Hero = ({ scrollToProducts }) => {
             <span className="font-light text-3xl">Mjesto za ispunjenje vaših najdubljih želja</span>
           </h1>
           {showButtons && (
-            <div className="space-x-2 sm:space-x-8 mt-8 flex-col sm:flex-row">
-              <button
-                onClick={scrollToProducts}
-                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-green-500 hover:text-white hover:bg-green-500 transition-all duration-300 rounded-md bg-white"
+            <div className="space-x-8 mt-8">
+              <Link
+                to={"/products"}
+                className="uppercase font-semibold border-b-2 border-primary px-8 py-4 text-lg text-green-500 hover:text-white hover:bg-green-500 transition-all duration-300 rounded-md bg-white border-green-500"
               >
                 Pogledaj artikle
-              </button>
-              <button
-                onClick={scrollToFooter}
-                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-white hover:text-green-500 hover:bg-white transition-all duration-300 rounded-md bg-green-500 border-transparent"
+              </Link>
+              <Link
+                to={"/contact"}
+                className="uppercase font-semibold border-b-2 border-primary px-8 py-4 text-lg text-white hover:text-green-500 hover:bg-white transition-all duration-300 rounded-md bg-green-500 border-transparent"
               >
                 Kontakt
-              </button>
+              </Link>
             </div>
           )}
         </div>

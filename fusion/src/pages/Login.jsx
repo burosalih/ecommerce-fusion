@@ -1,18 +1,24 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
-function Login() {
+function Login({ handleLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = () => {
+  const handleLoginClick = () => {
     if (username === "fusion" && password === "fusionbelle") {
-      // ne znam hocul ovdje hardkodirat ovako ovu sifru i user
-      window.location.href = "/adminpanel";
+      handleLogin();
+      setIsLoggedIn(true); 
     } else {
       setError("Incorrect username or password");
     }
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/adminpanel" />;
+  }
 
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 ">
@@ -47,7 +53,7 @@ function Login() {
               {error && <p className="text-red-500">{error}</p>}
               <button
                 className="my-2 flex bg-primary text-white rounded-lg p-2"
-                onClick={handleLogin}
+                onClick={handleLoginClick}
               >
                 Log in
               </button>

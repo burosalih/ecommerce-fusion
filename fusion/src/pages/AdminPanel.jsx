@@ -8,7 +8,6 @@ import EditProductForm from "../components/EditProductForm";
 function AdminPanel() {
   const { products, setProducts } = useContext(ProductContext);
   const { orders } = useContext(OrdersContext);
-  console.log(orders.narudzbe);
   const [activeView, setActiveView] = useState("products");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
@@ -51,7 +50,7 @@ function AdminPanel() {
   const handleEditFormSubmit = async (editedProduct) => {
     try {
       const response = await fetch(
-        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${editedProduct._id}.json`,
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi/${editedProduct._id}.json`,
         {
           method: "PUT",
           headers: {
@@ -80,7 +79,7 @@ function AdminPanel() {
     try {
       // Dohvati sve proizvode iz baze podataka
       const response = await fetch(
-        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json"
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json"
       );
       const data = await response.json();
 
@@ -99,7 +98,7 @@ function AdminPanel() {
 
       // Dodaj novi proizvod sa inkrementiranim ključem u bazu podataka
       const responseAdd = await fetch(
-        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${newKey}.json`,
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi/${newKey}.json`,
         {
           method: "PUT", // Koristi PUT metodu za ažuriranje
           headers: {
@@ -121,7 +120,7 @@ function AdminPanel() {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      const url = `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${productId}.json`;
+      const url = `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi/${productId}.json`;
 
       const response = await fetch(url, {
         method: "DELETE",
@@ -146,7 +145,7 @@ function AdminPanel() {
   const fetchProducts = async () => {
     try {
       const response = await fetch(
-        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json"
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json"
       );
       const data = await response.json();
       setProducts(data);
