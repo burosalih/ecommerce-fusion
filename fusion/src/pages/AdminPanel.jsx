@@ -1,22 +1,33 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../context/ProductContext";
 import { OrdersContext } from "../context/OrdersContext";
 import { AiOutlineMenu } from "react-icons/ai";
+import EditProductForm from "../components/EditProductForm";
 
 function AdminPanel() {
-  const { products } = useContext(ProductContext);
+  const { products, setProducts } = useContext(ProductContext);
   const { orders } = useContext(OrdersContext);
   console.log(orders.narudzbe);
   const [activeView, setActiveView] = useState("products");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
+  const [editProductId, setEditProductId] = useState(null);
+
+  const [editProduct, setEditProduct] = useState({
+    _id: "",
+    naziv: "",
+    cijena: "",
+    opis: "",
+    slika: "",
+  });
 
   const [newProduct, setNewProduct] = useState({
     _id: "",
     naziv: "",
     cijena: "",
-    opis: ""
+    opis: "",
+    slika: "",
   });
 
   const handleViewChange = (view) => {
@@ -28,13 +39,49 @@ function AdminPanel() {
     setIsAddProductFormOpen(true);
   };
 
+  const handleEditProduct = (productId) => {
+    setEditProductId(productId);
+    // Pronađite proizvod koji se uređuje na osnovu productId i postavite ga u stanje za uređivanje
+    const productToEdit = products.find(product => product._id === productId);
+    if (productToEdit) {
+      setEditProduct(productToEdit);
+    }
+  };
+
+  const handleEditFormSubmit = async (editedProduct) => {
+    try {
+      const response = await fetch(
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${editedProduct._id}.json`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editedProduct),
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Neuspješan zahtjev za ažuriranje proizvoda");
+      }
+  
+      fetchProducts(); // Ponovo dohvati proizvode nakon ažuriranja
+      setEditProductId(null); // Zatvori formu za uređivanje
+      console.log("Proizvod uspješno ažuriran");
+    } catch (error) {
+      console.error("Greška prilikom ažuriranja proizvoda:", error);
+    }
+  };
+
   const handleAddProductFormSubmit = async () => {
     console.log("Novi artikal:", newProduct);
     setIsAddProductFormOpen(false);
 
     try {
       // Dohvati sve proizvode iz baze podataka
-      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json");
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json"
+      );
       const data = await response.json();
 
       // Pronađi maksimalni ključ
@@ -51,33 +98,66 @@ function AdminPanel() {
       newProduct._id = newKey;
 
       // Dodaj novi proizvod sa inkrementiranim ključem u bazu podataka
-      const responseAdd = await fetch(`https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${newKey}.json`, {
-        method: "PUT", // Koristi PUT metodu za ažuriranje
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newProduct)
-      });
+      const responseAdd = await fetch(
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${newKey}.json`,
+        {
+          method: "PUT", // Koristi PUT metodu za ažuriranje
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        }
+      );
 
       if (!responseAdd.ok) {
-        throw new Error('Neuspješan zahtjev za dodavanje proizvoda');
+        throw new Error("Neuspješan zahtjev za dodavanje proizvoda");
       }
-
+      fetchProducts();
       console.log("Uspješno dodan proizvod sa ključem:", newKey);
-
     } catch (error) {
-      console.error('Greška prilikom dodavanja proizvoda:', error);
+      console.error("Greška prilikom dodavanja proizvoda:", error);
     }
   };
 
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const url = `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi/${productId}.json`;
 
-  const handleDeleteProduct = (productId) => {
-    //ovdje dodat logiku za brisanje
+      const response = await fetch(url, {
+        method: "DELETE",
+      });
+
+      console.log(response);
+      if (!response.ok) {
+        throw new Error("Neuspješan zahtjev za brisanje proizvoda");
+      }
+
+      fetchProducts();
+      console.log("Proizvod je uspešno obrisan.");
+    } catch (error) {
+      console.error("Greška prilikom brisanja proizvoda:", error);
+    }
   };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/0/proizvodi.json"
+      );
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Greška prilikom dohvatanja proizvoda:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="flex h-screen">
@@ -88,8 +168,7 @@ function AdminPanel() {
             : "hidden"
         }
       >
-        <div className="p-3">
-        </div>
+        <div className="p-3"></div>
         <ul className="pt-0 mb-10">
           <li
             className="px-4 py-2 hover:bg-emerald-500 cursor-pointer text-2xl"
@@ -129,7 +208,7 @@ function AdminPanel() {
               >
                 Dodaj Artikal
               </button>
-              { }
+              {}
               {isAddProductFormOpen && (
                 <div className="mb-4">
                   <input
@@ -157,71 +236,83 @@ function AdminPanel() {
                     onChange={(e) =>
                       setNewProduct({
                         ...newProduct,
-                        opis: e.target.value
+                        opis: e.target.value,
                       })
                     }
                     className="border border-gray-400 px-2 py-1 mr-2 rounded-lg"
                   />
+                  <input type="file" accept="image/*" className="py-2" />
                   <button
                     onClick={handleAddProductFormSubmit}
                     className="bg-primary hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded"
                   >
                     Dodaj
                   </button>
+                  
                 </div>
+                
               )}
               <ul>
-                {products.map((product) => (
+              {products.map((product) => (
+  <li
+    key={product._id}
+    className="flex items-center justify-between border-b border-gray-300 py-2"
+  >
+    <div className="flex items-center">
+      <img src={product.slika} className="w-10 h-10" />
+      <div className="ml-2">
+        <div>{product.naziv}</div>
+        <div>Cijena: {product.cijena}</div>
+      </div>
+    </div>
+    <div>
+      <button
+        onClick={() => handleEditProduct(product._id)}
+        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 mr-2 my-3 rounded-md"
+      >
+        Uredi
+      </button>
+      <button
+        onClick={() => handleDeleteProduct(product._id)}
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md"
+      >
+        Obriši
+      </button>
+    </div>
+  </li>
+))}
+              </ul>
+              {editProductId && (
+                <EditProductForm
+                product={editProduct}
+                onSave={handleEditFormSubmit}
+                onClose={() => setEditProductId(null)}
+              />
+              )}
+            </>
+          )}
+          {activeView === "orders" && (
+            <div>
+              <h1 className="text-3xl font-bold mb-4">Narudžbe</h1>
+              <ul className="overflow-auto">
+                {orders.map((order) => (
                   <li
-                    key={product.id}
-                    className="flex justify-between items-center border-b py-2"
+                    key={order._id}
+                    className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
                   >
-                    <img src={product.slika} className="w-10 h-10" />
-                    <div>{product.naziv}</div>
-                    <button
-                      onClick={() => handleDeleteProduct(product.id)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md"
-                    >
-                      Obriši
+                    <div>ID Narudžbe : {order._id}</div>
+                    <div>Ime : {order.ime}</div>
+                    <div>Broj telefona : {order.broj}</div>
+                    <div>Adresa : {order.adresa}</div>
+                    <div>Ukupna cijena: {order.cijena} KM</div>
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md">
+                      Obriši narudžbu
                     </button>
                   </li>
                 ))}
               </ul>
-            </>
+            </div>
           )}
-         {activeView === "orders" && (
-  <div>
-    <h1 className="text-3xl font-bold mb-4">Narudžbe</h1>
-    <ul className="overflow-auto">
-      {orders.map((order) => (
-        <li
-          key={order._id}
-          className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
-        >
-          <div>ID Narudžbe: {order._id}</div>
-          <div>Ime: {order.ime}</div>
-          <div>Broj telefona: {order.broj}</div>
-          <div>Adresa: {order.adresa}</div>
-          <div>Ukupna cijena: {order.cijena} KM</div>
-          <div>Proizvodi:</div>
-          <ul>
-            {order.proizvodi.map((item, index) => (
-              <li key={index}>
-                Naziv: {item.naziv}, Količina: {item.kolicina}
-              </li>
-            ))}
-          </ul>
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md"
-          >
-            Obriši narudžbu
-          </button>
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
-
         </div>
       </div>
     </div>
