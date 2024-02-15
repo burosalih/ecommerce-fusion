@@ -49,8 +49,20 @@ function AdminPanel() {
 
   const handleEditFormSubmit = async (editedProduct) => {
     try {
-      const response = await fetch(
-        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi/${editedProduct._id}.json`,
+      // Dohvati sve proizvode
+      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json");
+      const data = await response.json();
+  
+      // Pronađi proizvod koji želite ažurirati
+      const productIdToUpdate = Object.keys(data).find(productId => data[productId]._id === editedProduct._id);
+  
+      if (!productIdToUpdate) {
+        throw new Error("Proizvod koji želite ažurirati nije pronađen");
+      }
+  
+      // Napravi PUT zahtjev samo za pronađeni proizvod
+      const updateResponse = await fetch(
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi/${productIdToUpdate}.json`,
         {
           method: "PUT",
           headers: {
@@ -60,7 +72,7 @@ function AdminPanel() {
         }
       );
   
-      if (!response.ok) {
+      if (!updateResponse.ok) {
         throw new Error("Neuspješan zahtjev za ažuriranje proizvoda");
       }
   
@@ -71,6 +83,7 @@ function AdminPanel() {
       console.error("Greška prilikom ažuriranja proizvoda:", error);
     }
   };
+  
 
   const handleAddProductFormSubmit = async () => {
     console.log("Novi artikal:", newProduct);
