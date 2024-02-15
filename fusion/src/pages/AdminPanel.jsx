@@ -246,7 +246,7 @@ function AdminPanel() {
                     }
                     className="border border-gray-400 px-2 py-1 mr-2 mb-2 rounded-lg"
                   />
-                  <input
+                  <textarea
                     type="text"
                     placeholder="Opis"
                     value={newProduct.opis}
@@ -256,7 +256,7 @@ function AdminPanel() {
                         opis: e.target.value,
                       })
                     }
-                    className="border border-gray-400 px-2 py-1 mr-2 rounded-lg"
+                    className="border border-gray-400 px-2 py-1 mr-2 rounded-lg w-full h-[300px] mb-4 resize-none"
                   />
                   <input type="file" accept="image/*" className="py-2" />
                   <button
