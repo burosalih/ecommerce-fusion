@@ -5,6 +5,7 @@ import CartItem from "./ItemInCart";
 import { SidebarContext } from "../context/SidebarContext";
 import { CartContext } from "../context/CartContext";
 import CheckoutForm from "./CheckoutForm";
+import OrderSuccess from "./OrderSuccess";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext);
@@ -13,15 +14,29 @@ const Sidebar = () => {
   const [brojTel, setBrojTel] = useState("");
   const [adresa, setAdresa] = useState("");
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const handleImeChange = (event) => setIme(event.target.value);
-  const handleBrojTelChange = (event) => setBrojTel(event.target.value);
-  const handleAdresaChange = (event) => setAdresa(event.target.value);
-  const handleOrderClick = () => {
-    setShowCheckoutForm(true);
+  const handleImeChange = (event) => {
+    setIme(event.target.value);
+  };
+  const handleBrojTelChange = (event) => {
+    setBrojTel(event.target.value);
+  };
+  const handleAdresaChange = (event) => {
+    setAdresa(event.target.value);
   };
 
+  const handleOrderClick = () => {
+    if (!showCheckoutForm) {
+      setShowCheckoutForm(true);
+    }
+  }
+
   const handleSubmitOrder = async () => {
+    if (!ime.trim() || !brojTel.trim() || !adresa.trim()) {
+      console.error('Molimo popunite sva polja.');
+      return;
+    }
     const orderData = {
       _id: '',
       ime,
@@ -69,7 +84,11 @@ const Sidebar = () => {
       }
   
       console.log("Uspješno kreirana narudžba sa ključem:", newKey);
-  
+      handleClose();
+      setShowSuccessModal(true);
+      clearCart();
+      setShowCheckoutForm(false);
+
     } catch (error) {
       console.error('Greška prilikom kreiranja narudžbe:', error);
     }
@@ -126,6 +145,9 @@ const Sidebar = () => {
             onadresaChange={handleAdresaChange}
             onSubmit={handleSubmitOrder}
           />
+        )}
+        {showSuccessModal && (
+          <OrderSuccess onClose={() => setShowSuccessModal(false)} />
         )}
       </div>
     </div>
