@@ -322,6 +322,14 @@ function AdminPanel() {
                     <div>Broj telefona : {order.broj}</div>
                     <div>Adresa : {order.adresa}</div>
                     <div>Ukupna cijena: {order.cijena} KM</div>
+                    <div>Proizvodi:</div>
+          <ul>
+            {order.proizvodi.map((item, index) => (
+              <li key={index}>
+                Naziv: {item.naziv}, Količina: {item.kolicina}
+              </li>
+            ))}
+          </ul>
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md">
                       Obriši narudžbu
                     </button>
