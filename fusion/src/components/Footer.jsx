@@ -16,7 +16,7 @@ const Footer = forwardRef((props, ref) => (
         </div>
       </div>
       <div className="text-white text-right">
-        © 2024 KAMAGRA
+        © 2024 KAMAGRA BALKAN
       </div>
     </div>
   </footer>

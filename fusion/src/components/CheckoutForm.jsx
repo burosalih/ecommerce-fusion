@@ -4,14 +4,20 @@ const CheckoutForm = ({
   ime,
   brojTel,
   adresa,
+  grad,
+  postanskiBroj,
   onimeChange,
   onbrojTelChange,
   onadresaChange,
+  onGradChange,
+  onPostanskiBrojChange,
   onSubmit,
 }) => {
   const [imeError, setImeError] = useState(false);
   const [brojTelError, setBrojTelError] = useState(false);
   const [adresaError, setAdresaError] = useState(false);
+  const [gradError, setGradError] = useState(false);
+  const [postanskiBrojError, setPostanskiBrojError] = useState(false);
 
   const handleOrderClick = () => {
     let hasError = false;
@@ -35,6 +41,20 @@ const CheckoutForm = ({
       hasError = true;
     } else {
       setAdresaError(false);
+    }
+
+    if (!grad.trim()) {
+      setGradError(true);
+      hasError = true;
+    } else {
+      setGradError(false);
+    }
+
+    if (!postanskiBroj.trim()) {
+      setPostanskiBrojError(true);
+      hasError = true;
+    } else {
+      setPostanskiBrojError(false);
     }
 
     if (!hasError) {
@@ -89,6 +109,36 @@ const CheckoutForm = ({
           className={`mt-1 p-2 border ${adresaError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
         />
         {adresaError && <p className="text-red-500 text-sm mt-1">Molimo unesite adresu.</p>}
+      </div>
+      <div className="mb-4">
+        <label htmlFor="grad" className="block text-sm font-medium text-gray-700">
+          Grad
+        </label>
+        <input
+          type="text"
+          id="grad"
+          name="grad"
+          value={grad}
+          onChange={onGradChange}
+          autoComplete="off"
+          className={`mt-1 p-2 border ${gradError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
+        />
+        {gradError && <p className="text-red-500 text-sm mt-1">Molimo unesite grad.</p>}
+      </div>
+      <div className="mb-4">
+        <label htmlFor="postanskiBroj" className="block text-sm font-medium text-gray-700">
+          Poštanski broj
+        </label>
+        <input
+          type="text"
+          id="postanskiBroj"
+          name="postanskiBroj"
+          value={postanskiBroj}
+          onChange={onPostanskiBrojChange}
+          autoComplete="off"
+          className={`mt-1 p-2 border ${postanskiBrojError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
+        />
+        {postanskiBrojError && <p className="text-red-500 text-sm mt-1">Molimo unesite poštanski broj.</p>}
       </div>
       <button
         onClick={handleOrderClick}
