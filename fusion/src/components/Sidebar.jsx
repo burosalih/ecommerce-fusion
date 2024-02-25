@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { FiTrash2 } from "react-icons/fi";
 import CartItem from "./ItemInCart";
@@ -13,8 +13,18 @@ const Sidebar = () => {
   const [ime, setIme] = useState("");
   const [brojTel, setBrojTel] = useState("");
   const [adresa, setAdresa] = useState("");
+  const [grad, setGrad] = useState("");
+  const [postanskiBroj, setPostanskiBroj] = useState("");
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [hideCartItems, setHideCartItems] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setShowCheckoutForm(false);
+      setHideCartItems(false);
+    }
+  }, [isOpen]);
 
   const handleImeChange = (event) => {
     setIme(event.target.value);
@@ -26,7 +36,15 @@ const Sidebar = () => {
     setAdresa(event.target.value);
   };
 
+  const handleGradChange = (event) => {
+    setGrad(event.target.value);
+  };
+  const handlePostanskiBrojChange = (event) => {
+    setPostanskiBroj(event.target.value);
+  };
+
   const handleOrderClick = () => {
+    setHideCartItems(true);
     if (!showCheckoutForm) {
       setShowCheckoutForm(true);
     }
@@ -88,6 +106,7 @@ const Sidebar = () => {
       setShowSuccessModal(true);
       clearCart();
       setShowCheckoutForm(false);
+      setHideCartItems(false);
 
     } catch (error) {
       console.error('Greška prilikom kreiranja narudžbe:', error);
@@ -111,12 +130,14 @@ const Sidebar = () => {
           <IoMdArrowForward className="text-2xl hover:text-primary hover:scale-105 duration-300" />
         </div>
       </div>
+      {!hideCartItems &&
       <div className="flex flex-col gap-y-2 h-[360px] md:h-[480px] lg:h-[420px] overflow-y-auto overflow-x-hidden border-b">
         {cart.map((item) => {
           return <CartItem item={item} key={item.id} />;
         })}
       </div>
-      <div className="flex flex-col gap-y-3 mt-4 overflow-y-auto" style={{ maxHeight: "calc(100vh - 500px)" }}>
+      }
+      <div className="flex flex-col gap-y-3 mt-4">
         <div className="flex w-full justify-between items-center">
           <div className="font-semibold">
             <span className="mr-2">Ukupno:</span>KM{" "}
@@ -137,14 +158,18 @@ const Sidebar = () => {
         </button>
         {showCheckoutForm && (
           <CheckoutForm
-            ime={ime}
-            brojTel={brojTel}
-            adresa={adresa}
-            onimeChange={handleImeChange}
-            onbrojTelChange={handleBrojTelChange}
-            onadresaChange={handleAdresaChange}
-            onSubmit={handleSubmitOrder}
-          />
+          ime={ime}
+          brojTel={brojTel}
+          adresa={adresa}
+          grad={grad}
+          postanskiBroj={postanskiBroj}
+          onimeChange={handleImeChange}
+          onbrojTelChange={handleBrojTelChange}
+          onadresaChange={handleAdresaChange}
+          onGradChange={handleGradChange}
+          onPostanskiBrojChange={handlePostanskiBrojChange}
+          onSubmit={handleSubmitOrder}
+        />
         )}
         {showSuccessModal && (
           <OrderSuccess onClose={() => setShowSuccessModal(false)} />
