@@ -42,6 +42,7 @@ function App() {
               <>
                 <Header />
                 <Muskarci />
+                <FloatingButton/>
                 <Footer />
               </>
             }
@@ -52,6 +53,7 @@ function App() {
               <>
                 <Header />
                 <Zene />
+                <FloatingButton/>
                 <Footer />
               </>
             }
@@ -62,6 +64,7 @@ function App() {
               <>
                 <Header />
                 <ProductDetails />
+                <FloatingButton/>
                 <Footer />
               </>
             }
