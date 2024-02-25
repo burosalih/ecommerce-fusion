@@ -12,6 +12,16 @@ module.exports = {
         primary: '#50C878',
         secondary: '#F5E6E0',
       },
+      animation: {
+        'ring': 'ring 1s infinite alternate',
+      },
+      keyframes: {
+        ring: {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.1)' },
+          '100%': { transform: 'scale(1)' },
+        },
+      },
     },
     container: {
       padding: {
@@ -27,5 +37,4 @@ module.exports = {
     xl: '1440px',
   },
   plugins: [],
-}
-
+};

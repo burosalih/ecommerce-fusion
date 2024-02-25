@@ -12,6 +12,7 @@ import Zene from "./pages/Zene";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import FloatingButton from "./components/FloatingButton";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,6 +31,7 @@ function App() {
               <>
                 <Header />
                 <Home />
+                <FloatingButton/>
                 <Footer />
               </>
             }
