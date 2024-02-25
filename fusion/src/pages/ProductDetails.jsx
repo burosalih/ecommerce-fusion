@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { ProductContext } from "../context/ProductContext";
 import parse from "html-react-parser"; 
@@ -20,6 +20,11 @@ const ProductDetails = () => {
   }
 
   const { naziv, cijena, opis, slika } = product;
+
+  const handleAddToCart = () => {
+    addToCart(product, product._id);
+  };
+
   return (
     <section className="pt-[150px] md:pt-32 pb-[100px] md:pb-32 lg:py-32 h-full flex items-center">
       <div className="container mx-auto">
@@ -34,14 +39,12 @@ const ProductDetails = () => {
             <div className="text-2xl text-red-500 font-medium mb-6">
               {cijena} KM
             </div>
-            {/* Koristimo ReactHtmlParser umjesto parse */}
             {parse(opis)}
-            <button
-              onClick={() => addToCart(product, product._id)}
-              className="bg-primary py-4 mt-4 px-8 text-white"
-            >
-              Dodaj u korpu
-            </button>
+            <Link to="/" onClick={handleAddToCart}>
+              <button className="bg-primary py-4 mt-4 px-8 text-white">
+                Dodaj u korpu
+              </button>
+            </Link>
           </div>
         </div>
       </div>
