@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaViber, FaWhatsapp, FaFacebookMessenger, FaPhone } from 'react-icons/fa';
+import { FaViber, FaWhatsapp, FaPhone, } from 'react-icons/fa';
+import { MdPhone } from 'react-icons/md';
 
 const FloatingButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +17,8 @@ const FloatingButton = () => {
     window.open('https://wa.me/1234567890');
   };
 
-  const openMessengerChat = () => {
-    window.open('https://m.me/yourPage'); 
+  const openPhoneCall = () => {
+    window.open('tel:1234567890');
   };
 
   return (
@@ -37,8 +38,8 @@ const FloatingButton = () => {
             <button className="text-white bg-green-500 hover:bg-green-600 rounded-full p-2" onClick={openWhatsAppChat}>
               <FaWhatsapp className="inline-block text-4xl" />
             </button>
-            <button className="text-white bg-blue-500 hover:bg-blue-600 rounded-full p-2" onClick={openMessengerChat}>
-              <FaFacebookMessenger className="inline-block text-4xl" />
+            <button className="text-white bg-teal-500 hover:bg-teal-600 rounded-full p-2" onClick={openPhoneCall}>
+              <MdPhone className="inline-block text-4xl" />
             </button>
           </div>
         </div>
