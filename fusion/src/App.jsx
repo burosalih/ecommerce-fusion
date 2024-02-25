@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
 import AdminPanel from "./pages/AdminPanel";
+import Muskarci from "./pages/Muskarci";
+import Zene from "./pages/Zene";
 
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
@@ -28,6 +30,26 @@ function App() {
               <>
                 <Header />
                 <Home />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/muskarci"
+            element={
+              <>
+                <Header />
+                <Muskarci />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/zene"
+            element={
+              <>
+                <Header />
+                <Zene />
                 <Footer />
               </>
             }
