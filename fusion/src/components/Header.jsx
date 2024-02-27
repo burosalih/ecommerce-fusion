@@ -2,21 +2,22 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { SidebarContext } from "../context/SidebarContext";
 import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
-import { BsBag } from "react-icons/bs";
+import { BsBag, BsList } from "react-icons/bs";
 
 const Header = () => {
   const [isActive, setIsActive] = useState(false); // Header stateovi ovaj je samo za estetiku
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State za otvorit korpu
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State za dropdown
+  const [proizvodiOpen, setProizvodiOpen] = useState(false); // State za Proizvodi submenu dropdown
   const { isOpen, setIsOpen } = useContext(SidebarContext); // State za otvorit korpu
   const { itemAmount } = useContext(CartContext); // Za broj artikala u korpi
   const dropdownRef = useRef(null);
+  const proizvodiRef = useRef(null);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
       window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
     });
 
-    // Close dropdown when clicking outside of it
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
@@ -25,13 +26,24 @@ const Header = () => {
   }, []);
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      proizvodiRef.current &&
+      !proizvodiRef.current.contains(event.target)
+    ) {
       setDropdownOpen(false);
+      setProizvodiOpen(false);
     }
   };
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
+    setProizvodiOpen(false);
+  };
+
+  const toggleProizvodiDropdown = () => {
+    setProizvodiOpen(!proizvodiOpen);
   };
 
   const scrollToFooter = () => {
@@ -43,51 +55,88 @@ const Header = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const menuItems = [
+    { label: "Home", to: "/", onClick: scrollToTop },
+    { label: "Kontakt", to: "#", onClick: scrollToFooter },
+    { label: "Recenzije", to: "#", onClick: scrollToFooter },
+    {
+      label: "Proizvodi",
+      onClick: toggleProizvodiDropdown,
+      submenu: [
+        { label: "Muškarci", to: "/muskarci" },
+        { label: "Žene", to: "/zene" },
+      ],
+    },
+  ];
+
   return (
     <header
       className={`${
         isActive ? "bg-primary py-4 shadow-xl" : "bg-primary py-6"
       } fixed w-full z-10 lg:px-8 transition-all`}
     >
-      <div className="container mx-auto flex justify-between h-full">
-        <Link to={"/"}>
-          <div className="w-[40px]">
-            <img src={"https://fakeimg.pl/600x400"} alt="" />
-          </div>
-        </Link>
-        <Link to={"/"} onClick={scrollToTop} className="font-primary text-white">
-          Home
-        </Link>
-        <div ref={dropdownRef} className="relative" onBlur={() => setDropdownOpen(false)}>
-          <span
-            onClick={toggleDropdown}
-            className="font-primary text-white cursor-pointer"
-          >
-            Proizvodi
-          </span>
-          {dropdownOpen && (
-            <div className="absolute bg-white mt-2 py-2 rounded-lg shadow-lg">
+      <div className="container mx-auto flex justify-between h-full items-center">
+        <div className="hidden lg:flex space-x-16">
+          {menuItems.map((item, index) => (
+            <div key={index} className="relative">
               <Link
-                to={"/muskarci"}
-                className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white"
+                to={item.to}
+                onClick={item.onClick}
+                className="font-primary text-white"
               >
-                Muškarci
+                {item.label}
               </Link>
-              <Link
-                to={"/zene"}
-                className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white"
-              >
-                Žene
-              </Link>
+              {item.submenu && proizvodiOpen && (
+                <div className="absolute bg-white py-2 rounded-lg shadow-lg left-0">
+                  {item.submenu.map((subitem, subindex) => (
+                    <Link
+                      key={subindex}
+                      to={subitem.to}
+                      className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white"
+                    >
+                      {subitem.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+          ))}
         </div>
-        <Link to={"#"} onClick={scrollToFooter} className="font-primary text-white">
-          Kontakt
-        </Link>
-        <Link to={"#"} onClick={scrollToFooter} className="font-primary text-white">
-          Recenzije
-        </Link>
+        <div
+          ref={dropdownRef}
+          onClick={toggleDropdown}
+          className="cursor-pointer lg:hidden"
+        >
+          <BsList className="text-2xl text-white" />
+        </div>
+        {dropdownOpen && (
+          <div className="absolute top-full bg-white left-0 w-full shadow-lg rounded-br-2xl">
+            {menuItems.map((item, index) => (
+              <div key={index} className="relative">
+                <Link
+                  to={item.to}
+                  onClick={item.onClick}
+                  className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white duration-300"
+                >
+                  {item.label}
+                </Link>
+                {item.submenu && proizvodiOpen && (
+                  <div className="absolute bg-gray-100 shadow-lg rounded-br-2xl">
+                    {item.submenu.map((subitem, subindex) => (
+                      <Link
+                        key={subindex}
+                        to={subitem.to}
+                        className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white duration-300"
+                      >
+                        {subitem.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
         <div
           onClick={() => setIsOpen(!isOpen)}
           className="cursor-pointer flex relative"
