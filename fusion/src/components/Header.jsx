@@ -1,47 +1,22 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { SidebarContext } from "../context/SidebarContext";
-import { CartContext } from "../context/CartContext";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsBag, BsList } from "react-icons/bs";
+import { CartContext } from "../context/CartContext";
+import { SidebarContext } from "../context/SidebarContext";
 
 const Header = () => {
-  const [isActive, setIsActive] = useState(false); // Header stateovi ovaj je samo za estetiku
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State za dropdown
-  const [proizvodiOpen, setProizvodiOpen] = useState(false); // State za Proizvodi submenu dropdown
-  const { isOpen, setIsOpen } = useContext(SidebarContext); // State za otvorit korpu
-  const { itemAmount } = useContext(CartContext); // Za broj artikala u korpi
-  const dropdownRef = useRef(null);
-  const proizvodiRef = useRef(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProizvodiOpen, setIsProizvodiOpen] = useState(false);
+  const { itemAmount } = useContext(CartContext);
+  const { isOpen, setIsOpen } = useContext(SidebarContext);
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
-    });
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleClickOutside = (event) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target)
-    ) {
-      setDropdownOpen(false);
-    }
-    if (
-      proizvodiRef.current &&
-      !proizvodiRef.current.contains(event.target)
-    ) {
-      setProizvodiOpen(false);
-    }
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    setIsProizvodiOpen(false); // Close Proizvodi submenu when main dropdown is toggled
   };
 
-  const toggleProizvodiDropdown = () => {
-    setProizvodiOpen(!proizvodiOpen);
+  const toggleProizvodi = () => {
+    setIsProizvodiOpen(!isProizvodiOpen);
   };
 
   const scrollToFooter = () => {
@@ -54,30 +29,27 @@ const Header = () => {
   };
 
   const subitemClick = () => {
-    toggleProizvodiDropdown();
+    setIsProizvodiOpen(false);
+    setIsDropdownOpen(false);
     scrollToTop();
-  }
+  };
 
   const menuItems = [
-    { label: "Home", to: "/", onClick: scrollToTop },
-    { label: "Kontakt", to: "#", onClick: scrollToFooter },
-    { label: "Recenzije", to: "/", onClick: scrollToFooter },
+    { label: "Home", to: "/", onClick: () => { setIsDropdownOpen(false); scrollToTop(); } },
+    { label: "Kontakt", to: "#", onClick: () => { setIsDropdownOpen(false); scrollToFooter(); } },
+    { label: "Recenzije", to: "/", onClick: () => { setIsDropdownOpen(false); scrollToFooter(); } },
     {
       label: "Proizvodi",
-      onClick: toggleProizvodiDropdown,
+      onClick: toggleProizvodi,
       submenu: [
-        { label: "Muškarci", to: "/muskarci", onClick : subitemClick },
-        { label: "Žene", to: "/zene", onClick : subitemClick},
+        { label: "Muškarci", to: "/muskarci", onClick: subitemClick },
+        { label: "Žene", to: "/zene", onClick: subitemClick },
       ],
     },
   ];
 
   return (
-    <header
-      className={`${
-        isActive ? "bg-primary py-4 shadow-xl" : "bg-primary py-6"
-      } fixed w-full z-10 lg:px-8 transition-all`}
-    >
+    <header className="bg-primary py-4 shadow-xl fixed w-full z-10 lg:px-8 transition-all">
       <div className="container mx-auto flex justify-between h-full items-center">
         <div className="hidden lg:flex space-x-16">
           {menuItems.map((item, index) => (
@@ -89,14 +61,14 @@ const Header = () => {
               >
                 {item.label}
               </Link>
-              {item.submenu && proizvodiOpen && (
-                <div ref={proizvodiRef} className="absolute bg-white py-2 rounded-lg shadow-lg left-0">
+              {item.submenu && isProizvodiOpen && (
+                <div className="absolute bg-white py-2 rounded-lg shadow-lg left-0">
                   {item.submenu.map((subitem, subindex) => (
                     <Link
                       key={subindex}
                       to={subitem.to}
-                      onClick={subitem.onClick}
                       className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white"
+                      onClick={subitem.onClick}
                     >
                       {subitem.label}
                     </Link>
@@ -106,14 +78,11 @@ const Header = () => {
             </div>
           ))}
         </div>
-        <div
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="cursor-pointer lg:hidden"
-        >
+        <div onClick={toggleDropdown} className="cursor-pointer lg:hidden">
           <BsList className="text-2xl text-white" />
         </div>
-        {dropdownOpen && (
-          <div ref={dropdownRef} className="absolute top-full bg-white left-0 w-full shadow-lg rounded-br-2xl">
+        {isDropdownOpen && (
+          <div className="absolute top-full bg-white left-0 w-full shadow-lg rounded-br-2xl">
             {menuItems.map((item, index) => (
               <div key={index} className="relative">
                 <Link
@@ -123,14 +92,14 @@ const Header = () => {
                 >
                   {item.label}
                 </Link>
-                {item.submenu && proizvodiOpen && (
-                  <div ref={proizvodiRef} className="absolute bg-gray-100 shadow-lg rounded-br-2xl">
+                {item.submenu && isProizvodiOpen && (
+                  <div className="absolute bg-gray-100 shadow-lg rounded-br-2xl">
                     {item.submenu.map((subitem, subindex) => (
                       <Link
                         key={subindex}
                         to={subitem.to}
-                        onClick={subitem.onClick}
                         className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white duration-300"
+                        onClick={subitem.onClick}
                       >
                         {subitem.label}
                       </Link>
@@ -142,8 +111,8 @@ const Header = () => {
           </div>
         )}
         <div
-          onClick={() => setIsOpen(!isOpen)}
           className="cursor-pointer flex relative"
+          onClick={() => setIsOpen(!isOpen)}
         >
           <BsBag className="text-2xl text-white" />
           <div className="bg-red-500 absolute -right-2 -top-2 text-[12px] w-[18px] h-[18px] text-white rounded-full flex justify-center items-center">
