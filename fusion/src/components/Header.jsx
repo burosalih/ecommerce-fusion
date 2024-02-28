@@ -12,7 +12,7 @@ const Header = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-    setIsProizvodiOpen(false); // Close Proizvodi submenu when main dropdown is toggled
+    setIsProizvodiOpen(false);
   };
 
   const toggleProizvodi = () => {
