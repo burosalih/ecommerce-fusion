@@ -28,18 +28,16 @@ const Header = () => {
   const handleClickOutside = (event) => {
     if (
       dropdownRef.current &&
-      !dropdownRef.current.contains(event.target) &&
+      !dropdownRef.current.contains(event.target)
+    ) {
+      setDropdownOpen(false);
+    }
+    if (
       proizvodiRef.current &&
       !proizvodiRef.current.contains(event.target)
     ) {
-      setDropdownOpen(false);
       setProizvodiOpen(false);
     }
-  };
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-    setProizvodiOpen(false);
   };
 
   const toggleProizvodiDropdown = () => {
@@ -55,16 +53,21 @@ const Header = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const subitemClick = () => {
+    toggleProizvodiDropdown();
+    scrollToTop();
+  }
+
   const menuItems = [
     { label: "Home", to: "/", onClick: scrollToTop },
     { label: "Kontakt", to: "#", onClick: scrollToFooter },
-    { label: "Recenzije", to: "#", onClick: scrollToFooter },
+    { label: "Recenzije", to: "/", onClick: scrollToFooter },
     {
       label: "Proizvodi",
       onClick: toggleProizvodiDropdown,
       submenu: [
-        { label: "Muškarci", to: "/muskarci" },
-        { label: "Žene", to: "/zene" },
+        { label: "Muškarci", to: "/muskarci", onClick : subitemClick },
+        { label: "Žene", to: "/zene", onClick : subitemClick},
       ],
     },
   ];
@@ -87,11 +90,12 @@ const Header = () => {
                 {item.label}
               </Link>
               {item.submenu && proizvodiOpen && (
-                <div className="absolute bg-white py-2 rounded-lg shadow-lg left-0">
+                <div ref={proizvodiRef} className="absolute bg-white py-2 rounded-lg shadow-lg left-0">
                   {item.submenu.map((subitem, subindex) => (
                     <Link
                       key={subindex}
                       to={subitem.to}
+                      onClick={subitem.onClick}
                       className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white"
                     >
                       {subitem.label}
@@ -103,14 +107,13 @@ const Header = () => {
           ))}
         </div>
         <div
-          ref={dropdownRef}
-          onClick={toggleDropdown}
+          onClick={() => setDropdownOpen(!dropdownOpen)}
           className="cursor-pointer lg:hidden"
         >
           <BsList className="text-2xl text-white" />
         </div>
         {dropdownOpen && (
-          <div className="absolute top-full bg-white left-0 w-full shadow-lg rounded-br-2xl">
+          <div ref={dropdownRef} className="absolute top-full bg-white left-0 w-full shadow-lg rounded-br-2xl">
             {menuItems.map((item, index) => (
               <div key={index} className="relative">
                 <Link
@@ -121,11 +124,12 @@ const Header = () => {
                   {item.label}
                 </Link>
                 {item.submenu && proizvodiOpen && (
-                  <div className="absolute bg-gray-100 shadow-lg rounded-br-2xl">
+                  <div ref={proizvodiRef} className="absolute bg-gray-100 shadow-lg rounded-br-2xl">
                     {item.submenu.map((subitem, subindex) => (
                       <Link
                         key={subindex}
                         to={subitem.to}
+                        onClick={subitem.onClick}
                         className="block pl-4 pr-8 py-2 text-gray-800 hover:bg-primary hover:text-white duration-300"
                       >
                         {subitem.label}
