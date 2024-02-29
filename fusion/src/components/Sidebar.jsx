@@ -6,6 +6,7 @@ import { SidebarContext } from "../context/SidebarContext";
 import { CartContext } from "../context/CartContext";
 import CheckoutForm from "./CheckoutForm";
 import OrderSuccess from "./OrderSuccess";
+import OrderFailed from "./OrderFailed";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext);
@@ -17,6 +18,7 @@ const Sidebar = () => {
   const [postanskiBroj, setPostanskiBroj] = useState("");
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailedModal, setShowFailedModal] = useState(false);
   const [hideCartItems, setHideCartItems] = useState(false);
 
   useEffect(() => {
@@ -110,6 +112,7 @@ const Sidebar = () => {
 
     } catch (error) {
       console.error('Greška prilikom kreiranja narudžbe:', error);
+      setShowFailedModal(true);
     }
   };
 
@@ -175,6 +178,9 @@ const Sidebar = () => {
         )}
         {showSuccessModal && (
           <OrderSuccess onClose={() => setShowSuccessModal(false)} />
+        )}
+        {showFailedModal && (
+          <OrderFailed onClose={() => setShowFailedModal(false)} />
         )}
       </div>
     </div>
