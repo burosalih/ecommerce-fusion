@@ -130,6 +130,24 @@ function AdminPanel() {
       console.error("Greška prilikom dodavanja proizvoda:", error);
     }
   };
+  const handleDeleteOrder = async(orderId)=> {
+    try {
+      const url = `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe/${orderId}.json`;
+
+      const response = await fetch(url, {
+        method: "DELETE",
+      });
+
+      console.log(response);
+      if (!response.ok) {
+        throw new Error("Neuspješan zahtjev za brisanje narudzbe");
+      }
+
+      console.log("Narudzba je uspešno obrisana.");
+    } catch (error) {
+      console.error("Greška prilikom brisanja narudzbe:", error);
+    }
+  };
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -332,7 +350,9 @@ function AdminPanel() {
                         </li>
                       ))}
                     </ul>
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md">
+                    <button
+                    onClick={() => handleDeleteOrder(order._id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md">
                       Obriši narudžbu
                     </button>
                   </li>
