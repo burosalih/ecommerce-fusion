@@ -52,14 +52,14 @@ function AdminPanel() {
       // Dohvati sve proizvode
       const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json");
       const data = await response.json();
-  
+
       // Pronađi proizvod koji želite ažurirati
       const productIdToUpdate = Object.keys(data).find(productId => data[productId]._id === editedProduct._id);
-  
+
       if (!productIdToUpdate) {
         throw new Error("Proizvod koji želite ažurirati nije pronađen");
       }
-  
+
       // Napravi PUT zahtjev samo za pronađeni proizvod
       const updateResponse = await fetch(
         `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi/${productIdToUpdate}.json`,
@@ -71,11 +71,11 @@ function AdminPanel() {
           body: JSON.stringify(editedProduct),
         }
       );
-  
+
       if (!updateResponse.ok) {
         throw new Error("Neuspješan zahtjev za ažuriranje proizvoda");
       }
-  
+
       fetchProducts(); // Ponovo dohvati proizvode nakon ažuriranja
       setEditProductId(null); // Zatvori formu za uređivanje
       console.log("Proizvod uspješno ažuriran");
@@ -83,7 +83,7 @@ function AdminPanel() {
       console.error("Greška prilikom ažuriranja proizvoda:", error);
     }
   };
-  
+
 
   const handleAddProductFormSubmit = async () => {
     console.log("Novi artikal:", newProduct);
@@ -161,16 +161,16 @@ function AdminPanel() {
         "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json"
       );
       const data = await response.json();
-  
+
       // Filtrirajte objekte koji nisu null
       const filteredData = Object.values(data).filter(product => product !== null);
-  
+
       setProducts(filteredData);
     } catch (error) {
       console.error("Greška prilikom dohvatanja proizvoda:", error);
     }
   };
-  
+
 
   useEffect(() => {
     fetchProducts();
@@ -225,7 +225,7 @@ function AdminPanel() {
               >
                 Dodaj Artikal
               </button>
-              {}
+              { }
               {isAddProductFormOpen && (
                 <div className="mb-4">
                   <input
@@ -265,46 +265,46 @@ function AdminPanel() {
                   >
                     Dodaj
                   </button>
-                  
+
                 </div>
-                
+
               )}
               <ul>
-              {products.map((product) => (
-  <li
-    key={product._id}
-    className="flex items-center justify-between border-b border-gray-300 py-2"
-  >
-    <div className="flex items-center">
-      <img src={product.slika} className="w-10 h-10" />
-      <div className="ml-2">
-        <div>{product.naziv}</div>
-        <div>Cijena: {product.cijena}</div>
-      </div>
-    </div>
-    <div>
-      <button
-        onClick={() => handleEditProduct(product._id)}
-        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 mr-2 my-3 rounded-md"
-      >
-        Uredi
-      </button>
-      <button
-        onClick={() => handleDeleteProduct(product._id)}
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md"
-      >
-        Obriši
-      </button>
-    </div>
-  </li>
-))}
+                {products.map((product) => (
+                  <li
+                    key={product._id}
+                    className="flex items-center justify-between border-b border-gray-300 py-2"
+                  >
+                    <div className="flex items-center">
+                      <img src={product.slika} className="w-10 h-10" />
+                      <div className="ml-2">
+                        <div>{product.naziv}</div>
+                        <div>Cijena: {product.cijena}</div>
+                      </div>
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => handleEditProduct(product._id)}
+                        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 mr-2 my-3 rounded-md"
+                      >
+                        Uredi
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduct(product._id)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md"
+                      >
+                        Obriši
+                      </button>
+                    </div>
+                  </li>
+                ))}
               </ul>
               {editProductId && (
                 <EditProductForm
-                product={editProduct}
-                onSave={handleEditFormSubmit}
-                onClose={() => setEditProductId(null)}
-              />
+                  product={editProduct}
+                  onSave={handleEditFormSubmit}
+                  onClose={() => setEditProductId(null)}
+                />
               )}
             </>
           )}
@@ -320,16 +320,18 @@ function AdminPanel() {
                     <div>ID Narudžbe : {order._id}</div>
                     <div>Ime : {order.ime}</div>
                     <div>Broj telefona : {order.broj}</div>
+                    <div>Grad : {order.grad}</div>
+                    <div>Poštanski broj : {order.postanskiBroj}</div>
                     <div>Adresa : {order.adresa}</div>
                     <div>Ukupna cijena: {order.cijena} KM</div>
                     <div>Proizvodi:</div>
-          <ul>
-            {order.proizvodi.map((item, index) => (
-              <li key={index}>
-                Naziv: {item.naziv}, Količina: {item.kolicina}
-              </li>
-            ))}
-          </ul>
+                    <ul>
+                      {order.proizvodi.map((item, index) => (
+                        <li key={index}>
+                          Naziv: {item.naziv}, Količina: {item.kolicina}
+                        </li>
+                      ))}
+                    </ul>
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md">
                       Obriši narudžbu
                     </button>

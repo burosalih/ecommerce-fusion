@@ -17,7 +17,6 @@ const OrdersProvider = ({ children }) => {
     };
     fetchOrders();
   }, []);
-console.log(orders);
   return (
     <OrdersContext.Provider value={{ orders }}>
       {children}

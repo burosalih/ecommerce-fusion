@@ -61,6 +61,8 @@ const Sidebar = () => {
       _id: '',
       ime,
       brojTel,
+      grad,
+      postanskiBroj,
       adresa,
       proizvodi: cart.map(item => ({ 
         naziv: item.naziv, 
