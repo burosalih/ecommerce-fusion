@@ -82,6 +82,9 @@ const Header = () => {
             </div>
           )}
         </div>
+        <Link to={"/savjeti"} className="font-primary text-white">
+          Savjeti i informacije
+        </Link>
         <Link to={"#"} onClick={scrollToFooter} className="font-primary text-white">
           Kontakt
         </Link>

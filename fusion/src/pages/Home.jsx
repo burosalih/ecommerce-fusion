@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext , useState } from "react";
 import { ProductContext } from "../context/ProductContext";
 import Product from "../components/Product";
 import Hero from "../components/HeroSection";
 import CustomerReviews from "../components/CustomerReview";
+import SingleQuestion from "../components/SingleQuestion";
+import { questions } from "../constants/constats";
+
 
 const Home = () => {
   const { products } = useContext(ProductContext);
+  const [cards] = useState(questions);
 
   const scrollToProducts = () => {
     const productsSection = document.getElementById("productsSection");
@@ -25,10 +29,21 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+      <section className="max-w-7xl mx-auto py-20 px-10">
+      <h1 className="text-center  text-4xl font-bold uppercase tracking-widest font-bold mb-8">
+        ČESTA PITANJA
+      </h1>
+
+      <section className="grid grid-cols-1 gap-8">
+        {cards.map((card, index) => (
+          <SingleQuestion {...card} key={index} />
+        ))}
+      </section>
+    </section>
       <section className='bg-pale-blue padding py-20'>
         <CustomerReviews />
       </section>
+      
     </div>
   );
 };

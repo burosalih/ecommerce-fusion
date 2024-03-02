@@ -8,11 +8,11 @@ import Login from "./pages/Login";
 import AdminPanel from "./pages/AdminPanel";
 import Muskarci from "./pages/Muskarci";
 import Zene from "./pages/Zene";
-
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import FloatingButton from "./components/FloatingButton";
+import Savjeti from "./pages/Savjeti";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -64,6 +64,17 @@ function App() {
               <>
                 <Header />
                 <ProductDetails />
+                <FloatingButton/>
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/savjeti"
+            element={
+              <>
+                <Header />
+                <Savjeti />
                 <FloatingButton/>
                 <Footer />
               </>
