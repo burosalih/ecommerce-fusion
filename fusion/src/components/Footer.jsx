@@ -5,7 +5,7 @@ const Footer = forwardRef((props, ref) => (
   <footer
     ref={ref}
     id="footer"
-    className="bg-gradient-to-b from-primary to-emerald-700 py-12"
+    className="bg-gradient-to-b from-primary to-emerald-800 py-12"
   >
     <div className="container mx-auto flex flex-col md:flex-row md:items-center justify-between">
       <div className="text-white mb-8 md:mr-8">
@@ -52,8 +52,8 @@ const Footer = forwardRef((props, ref) => (
         </a>
       </div>
       <div className="text-white md:text-center">© 2024 POTENCIJA KAMAGRA</div>
-      <div className="flex justify-end">
-        <img src="./Potencija.png" alt="Logo" className="h-36 mr-4" />
+      <div className="flex justify-center md:justify-end">
+        <img src="./Potencija.png" alt="Logo" className="h-36 mr-4 mt-5" />
       </div>
     </div>
   </footer>

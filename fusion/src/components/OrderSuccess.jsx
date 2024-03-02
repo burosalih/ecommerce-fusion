@@ -20,7 +20,7 @@ const OrderSuccess = ({ onClose }) => {
       {isVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg p-8 shadow-lg flex items-center justify-center">
-            <FaCheckCircle className="text-primary text-2xl" />
+            <FaCheckCircle className="text-green-500 text-2xl" />
             <p className="text-lg text-black font-semibold ml-2">Narudžba uspješna !</p>
           </div>
         </div>

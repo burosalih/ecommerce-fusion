@@ -24,7 +24,7 @@ const FloatingButton = () => {
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <button
-        className="bg-primary hover:bg-emerald-600 text-white font-semibold py-4 px-4 rounded-full shadow-lg animate-ring"
+        className="bg-primary hover:bg-purple-900 text-white font-semibold py-4 px-4 rounded-full shadow-lg animate-ring"
         onClick={toggleOptions}
       >
         <FaPhone className="text-4xl text-white" />

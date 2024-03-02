@@ -22,7 +22,7 @@ const Product = ({ product }) => {
         </div>
         <div className="absolute top-6 -right-11 group-hover:right-5 p-2 flex flex-col justify-center items-center gap-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
           <button onClick={() => addToCart(product)}>
-            <div className="flex justify-center items-center text-white w-12 h-12 bg-primary hover:bg-emerald-700 duration-300">
+            <div className="flex justify-center items-center text-white w-12 h-12 bg-primary hover:bg-purple-900 duration-300">
               <BsPlus className="text-3xl" />
             </div>
           </button>
@@ -39,7 +39,7 @@ const Product = ({ product }) => {
           <h2 className="font-bold mb-1">{naziv}</h2>
         </Link>
         <div className="justify-start flex gap-4 items-center">
-        <h2 className="text-gray-400 line-through">100 KM</h2>
+        <h2 className="text-gray-400 line-through">{cijena+15}KM</h2>
         <h2 className="">{cijena} KM</h2>
         <h2 className="bg-red-500 rounded-lg p-1 text-white font-bold">AKCIJA !</h2>
         </div>

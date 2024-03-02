@@ -7,7 +7,7 @@ export default function SingleQuestion({ question, answer }) {
 
   return (
     <>
-      <div className="border border-green-400 rounded-lg bg-white">
+      <div className="border border-fuchsia-500 rounded-lg bg-white">
         <article className="flex items-center justify-between p-4 lg:p-6 font-semibold">
           <h2
             className="cursor-pointer"

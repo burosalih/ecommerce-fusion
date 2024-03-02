@@ -53,13 +53,13 @@ const Hero = ({scrollToProducts}) => {
             <div className="space-x-4 mt-8">
               <button
                 onClick={scrollToProducts}
-                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-green-500 hover:text-white hover:bg-green-500 transition-all duration-300 rounded-md bg-white"
+                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-primary hover:text-white hover:bg-fuchsia-900 transition-all duration-300 rounded-md bg-white"
               >
                 Pogledaj artikle
               </button>
               <button
                 onClick={scrollToFooter}
-                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-white hover:text-green-500 hover:bg-white transition-all duration-300 rounded-md bg-green-500 border-transparent"
+                className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-white hover:text-primary hover:bg-white transition-all duration-300 rounded-md bg-primary border-transparent"
               >
                 Kontakt
               </button>
