@@ -57,6 +57,7 @@ const Header = () => {
       to: "/savjeti",
       onClick: () => {
         setIsDropdownOpen(false);
+        scrollToTop();
       },
     },
     {
