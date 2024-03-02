@@ -28,14 +28,14 @@ const CheckoutForm = ({
     } else {
       setImeError(false);
     }
-    
+
     if (!brojTel.trim()) {
       setBrojTelError(true);
       hasError = true;
     } else {
       setBrojTelError(false);
     }
-    
+
     if (!adresa.trim()) {
       setAdresaError(true);
       hasError = true;
@@ -64,9 +64,14 @@ const CheckoutForm = ({
 
   return (
     <div className="mt-4 mb-8">
-      <h2 className="text-lg font-semibold mb-4">Unesite informacije za narudžbu</h2>
+      <h2 className="text-lg font-semibold mb-4">
+        Unesite informacije za narudžbu
+      </h2>
       <div className="mb-4">
-        <label htmlFor="ime" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="ime"
+          className="block text-sm font-medium text-gray-700"
+        >
           Ime i prezime
         </label>
         <input
@@ -76,12 +81,21 @@ const CheckoutForm = ({
           value={ime}
           onChange={onimeChange}
           autoComplete="off"
-          className={`mt-1 p-2 border ${imeError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
+          className={`mt-1 p-2 border ${
+            imeError ? "border-red-500" : "border-gray-300"
+          } rounded-md w-full`}
         />
-        {imeError && <p className="text-red-500 text-sm mt-1">Molimo unesite ime i prezime.</p>}
+        {imeError && (
+          <p className="text-red-500 text-sm mt-1">
+            Molimo unesite ime i prezime.
+          </p>
+        )}
       </div>
       <div className="mb-4">
-        <label htmlFor="brojTel" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="brojTel"
+          className="block text-sm font-medium text-gray-700"
+        >
           Broj telefona
         </label>
         <input
@@ -91,12 +105,21 @@ const CheckoutForm = ({
           value={brojTel}
           onChange={onbrojTelChange}
           autoComplete="off"
-          className={`mt-1 p-2 border ${brojTelError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
+          className={`mt-1 p-2 border ${
+            brojTelError ? "border-red-500" : "border-gray-300"
+          } rounded-md w-full`}
         />
-        {brojTelError && <p className="text-red-500 text-sm mt-1">Molimo unesite broj telefona.</p>}
+        {brojTelError && (
+          <p className="text-red-500 text-sm mt-1">
+            Molimo unesite broj telefona.
+          </p>
+        )}
       </div>
       <div className="mb-4">
-        <label htmlFor="adresa" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="adresa"
+          className="block text-sm font-medium text-gray-700"
+        >
           Adresa
         </label>
         <input
@@ -106,12 +129,19 @@ const CheckoutForm = ({
           value={adresa}
           onChange={onadresaChange}
           autoComplete="off"
-          className={`mt-1 p-2 border ${adresaError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
+          className={`mt-1 p-2 border ${
+            adresaError ? "border-red-500" : "border-gray-300"
+          } rounded-md w-full`}
         />
-        {adresaError && <p className="text-red-500 text-sm mt-1">Molimo unesite adresu.</p>}
+        {adresaError && (
+          <p className="text-red-500 text-sm mt-1">Molimo unesite adresu.</p>
+        )}
       </div>
       <div className="mb-4">
-        <label htmlFor="grad" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="grad"
+          className="block text-sm font-medium text-gray-700"
+        >
           Grad
         </label>
         <input
@@ -121,12 +151,19 @@ const CheckoutForm = ({
           value={grad}
           onChange={onGradChange}
           autoComplete="off"
-          className={`mt-1 p-2 border ${gradError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
+          className={`mt-1 p-2 border ${
+            gradError ? "border-red-500" : "border-gray-300"
+          } rounded-md w-full`}
         />
-        {gradError && <p className="text-red-500 text-sm mt-1">Molimo unesite grad.</p>}
+        {gradError && (
+          <p className="text-red-500 text-sm mt-1">Molimo unesite grad.</p>
+        )}
       </div>
       <div className="mb-4">
-        <label htmlFor="postanskiBroj" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="postanskiBroj"
+          className="block text-sm font-medium text-gray-700"
+        >
           Poštanski broj
         </label>
         <input
@@ -136,9 +173,15 @@ const CheckoutForm = ({
           value={postanskiBroj}
           onChange={onPostanskiBrojChange}
           autoComplete="off"
-          className={`mt-1 p-2 border ${postanskiBrojError ? 'border-red-500' : 'border-gray-300'} rounded-md w-full`}
+          className={`mt-1 p-2 border ${
+            postanskiBrojError ? "border-red-500" : "border-gray-300"
+          } rounded-md w-full`}
         />
-        {postanskiBrojError && <p className="text-red-500 text-sm mt-1">Molimo unesite poštanski broj.</p>}
+        {postanskiBrojError && (
+          <p className="text-red-500 text-sm mt-1">
+            Molimo unesite poštanski broj.
+          </p>
+        )}
       </div>
       <button
         onClick={handleOrderClick}

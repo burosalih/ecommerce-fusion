@@ -6,8 +6,8 @@ import { AiOutlineMenu } from "react-icons/ai";
 import EditProductForm from "../components/EditProductForm";
 
 function AdminPanel() {
+  const { orders, setOrders } = useContext(OrdersContext);
   const { products, setProducts } = useContext(ProductContext);
-  const { orders } = useContext(OrdersContext);
   const [activeView, setActiveView] = useState("products");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
@@ -41,7 +41,7 @@ function AdminPanel() {
   const handleEditProduct = (productId) => {
     setEditProductId(productId);
     // Pronađite proizvod koji se uređuje na osnovu productId i postavite ga u stanje za uređivanje
-    const productToEdit = products.find(product => product._id === productId);
+    const productToEdit = products.find((product) => product._id === productId);
     if (productToEdit) {
       setEditProduct(productToEdit);
     }
@@ -50,11 +50,15 @@ function AdminPanel() {
   const handleEditFormSubmit = async (editedProduct) => {
     try {
       // Dohvati sve proizvode
-      const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json");
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json"
+      );
       const data = await response.json();
 
       // Pronađi proizvod koji želite ažurirati
-      const productIdToUpdate = Object.keys(data).find(productId => data[productId]._id === editedProduct._id);
+      const productIdToUpdate = Object.keys(data).find(
+        (productId) => data[productId]._id === editedProduct._id
+      );
 
       if (!productIdToUpdate) {
         throw new Error("Proizvod koji želite ažurirati nije pronađen");
@@ -83,7 +87,6 @@ function AdminPanel() {
       console.error("Greška prilikom ažuriranja proizvoda:", error);
     }
   };
-
 
   const handleAddProductFormSubmit = async () => {
     console.log("Novi artikal:", newProduct);
@@ -130,7 +133,8 @@ function AdminPanel() {
       console.error("Greška prilikom dodavanja proizvoda:", error);
     }
   };
-  const handleDeleteOrder = async(orderId)=> {
+
+  const handleDeleteOrder = async (orderId) => {
     try {
       const url = `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe/${orderId}.json`;
 
@@ -143,6 +147,7 @@ function AdminPanel() {
         throw new Error("Neuspješan zahtjev za brisanje narudzbe");
       }
 
+      fetchOrders();
       console.log("Narudzba je uspešno obrisana.");
     } catch (error) {
       console.error("Greška prilikom brisanja narudzbe:", error);
@@ -181,7 +186,9 @@ function AdminPanel() {
       const data = await response.json();
 
       // Filtrirajte objekte koji nisu null
-      const filteredData = Object.values(data).filter(product => product !== null);
+      const filteredData = Object.values(data).filter(
+        (product) => product !== null
+      );
 
       setProducts(filteredData);
     } catch (error) {
@@ -189,8 +196,29 @@ function AdminPanel() {
     }
   };
 
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe.json"
+      );
+      console.log(response);
+      const data = await response.json();
+      console.log(data);
+
+      // Filtrirajte objekte koji nisu null
+      const filteredData = Object.values(data).filter(
+        (orders) => orders !== null
+      );
+
+      setOrders(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Greška prilikom dohvatanja narudzbi:", error);
+    }
+  };
 
   useEffect(() => {
+    fetchOrders();
     fetchProducts();
   }, []);
 
@@ -243,7 +271,7 @@ function AdminPanel() {
               >
                 Dodaj Artikal
               </button>
-              { }
+              {}
               {isAddProductFormOpen && (
                 <div className="mb-4">
                   <input
@@ -283,9 +311,7 @@ function AdminPanel() {
                   >
                     Dodaj
                   </button>
-
                 </div>
-
               )}
               <ul>
                 {products.map((product) => (
@@ -330,33 +356,36 @@ function AdminPanel() {
             <div>
               <h1 className="text-3xl font-bold mb-4">Narudžbe</h1>
               <ul className="overflow-auto">
-                {orders.map((order) => (
-                  <li
-                    key={order._id}
-                    className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
-                  >
-                    <div>ID Narudžbe : {order._id}</div>
-                    <div>Ime : {order.ime}</div>
-                    <div>Broj telefona : {order.broj}</div>
-                    <div>Grad : {order.grad}</div>
-                    <div>Poštanski broj : {order.postanskiBroj}</div>
-                    <div>Adresa : {order.adresa}</div>
-                    <div>Ukupna cijena: {order.cijena} KM</div>
-                    <div>Proizvodi:</div>
-                    <ul>
-                      {order.proizvodi.map((item, index) => (
-                        <li key={index}>
-                          Naziv: {item.naziv}, Količina: {item.kolicina}
-                        </li>
-                      ))}
-                    </ul>
-                    <button
-                    onClick={() => handleDeleteOrder(order._id)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md">
-                      Obriši narudžbu
-                    </button>
-                  </li>
-                ))}
+                {orders.map((order) =>
+                  order && order._id ? (
+                    <li
+                      key={order._id}
+                      className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
+                    >
+                      <div>ID Narudžbe : {order._id}</div>
+                      <div>Ime : {order.ime}</div>
+                      <div>Broj telefona : {order.broj}</div>
+                      <div>Grad : {order.grad}</div>
+                      <div>Poštanski broj : {order.postanskiBroj}</div>
+                      <div>Adresa : {order.adresa}</div>
+                      <div>Ukupna cijena: {order.cijena} KM</div>
+                      <div>Proizvodi:</div>
+                      <ul>
+                        {order.proizvodi.map((item, index) => (
+                          <li key={index}>
+                            Naziv: {item.naziv}, Količina: {item.kolicina}
+                          </li>
+                        ))}
+                      </ul>
+                      <button
+                        onClick={() => handleDeleteOrder(order._id)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 my-2 px-2 rounded-md"
+                      >
+                        Obriši narudžbu
+                      </button>
+                    </li>
+                  ) : null
+                )}
               </ul>
             </div>
           )}
