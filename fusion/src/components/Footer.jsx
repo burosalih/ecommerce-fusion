@@ -10,14 +10,14 @@ const Footer = forwardRef((props, ref) => (
     <div className="container mx-auto flex items-center justify-between">
       <div className="text-white">
         <p>Kontaktirajte nas: </p>
-        <a href="tel:+061111111" className="flex items-center py-4 text-xl">
+        <a href="tel:+387644094444" className="flex items-center py-4 text-xl">
           <FaPhone className="mr-2 text-2xl" />
           <p>+387644094444</p>
         </a>
         <div className="flex items-center py-4 text-xl">
           <FaEnvelope className="mr-2 text-2xl" />
           <p>
-            <a href="mailto:example@example.com">kamagrabalk@gmail.com</a>
+            <a href="mailto:kamagrabalk@gmail.com">kamagrabalk@gmail.com</a>
           </p>
         </div>
       </div>
