@@ -112,7 +112,8 @@ const Sidebar = () => {
 
       console.log("Uspješno kreirana narudžba sa ključem:", newKey);
 
-      const orderMessage = `
+      if (responseAdd.ok) {
+        const orderMessage = `
         Poštovani,
 
         Evo detalja Vaše narudžbe:
@@ -132,28 +133,30 @@ const Sidebar = () => {
 
         `;
 
-      // Your EmailJS service ID, template ID, and Public Key
-      const serviceId = "service_dt3z8tk";
-      const templateId = "template_2se9vqh";
-      const publicKey = "ZGNkmZi3H6IJdgQFn";
+        // Your EmailJS service ID, template ID, and Public Key
+        const serviceId = "service_dt3z8tk";
+        const templateId = "template_2se9vqh";
+        const publicKey = "ZGNkmZi3H6IJdgQFn";
 
-      // Create a new object that contains dynamic template params
-      const templateParams = {
-        from_name: "",
-        from_email: "",
-        to_name: "Kamagra-Balkan",
-        message: orderMessage,
-      };
+        // Create a new object that contains dynamic template params
+        const templateParams = {
+          from_name: "",
+          from_email: "",
+          to_name: "Kamagra-Balkan",
+          message: orderMessage,
+        };
 
-      // Send the email using EmailJS
-      emailjs
-        .send(serviceId, templateId, templateParams, publicKey)
-        .then((response) => {
-          console.log("Email sent successfully!", response);
-        })
-        .catch((error) => {
-          console.error("Error sending email:", error);
-        });
+        // Send the email using EmailJS
+        emailjs
+          .send(serviceId, templateId, templateParams, publicKey)
+          .then((response) => {
+            console.log("Email sent successfully!", response);
+          })
+          .catch((error) => {
+            console.error("Error sending email:", error);
+          });
+      }
+
       handleClose();
       setShowSuccessModal(true);
       clearCart();
