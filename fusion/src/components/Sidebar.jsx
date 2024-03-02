@@ -134,9 +134,9 @@ const Sidebar = () => {
         `;
 
         // Your EmailJS service ID, template ID, and Public Key
-        const serviceId = "service_dt3z8tk";
-        const templateId = "template_2se9vqh";
-        const publicKey = "ZGNkmZi3H6IJdgQFn";
+        const serviceId = "service_o5sbtoj";
+        const templateId = "template_krvc2j6";
+        const publicKey = "WicRw0Dza8DvEysEv";
 
         // Create a new object that contains dynamic template params
         const templateParams = {
