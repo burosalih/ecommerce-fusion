@@ -159,6 +159,11 @@ const Sidebar = () => {
       clearCart();
       setShowCheckoutForm(false);
       setHideCartItems(false);
+      setIme("");
+      setBrojTel("");
+      setAdresa("");
+      setGrad("");
+      setPostanskiBroj("");
     } catch (error) {
       console.error("Greška prilikom kreiranja narudžbe:", error);
       setShowFailedModal(true);
