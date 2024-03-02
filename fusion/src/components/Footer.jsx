@@ -51,7 +51,10 @@ const Footer = forwardRef((props, ref) => (
           <p className="md:text-sm lg:text-lg">KAMAGRA BALKAN</p>
         </a>
       </div>
-      <div className="text-white md:text-center">© 2024 KAMAGRA BALKAN</div>
+      <div className="text-white md:text-center">© 2024 POTENCIJA KAMAGRA</div>
+      <div className="flex justify-end">
+        <img src="./Potencija.png" alt="Logo" className="h-36 mr-4" />
+      </div>
     </div>
   </footer>
 ));
