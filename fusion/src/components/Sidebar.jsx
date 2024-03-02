@@ -6,6 +6,7 @@ import { SidebarContext } from "../context/SidebarContext";
 import { CartContext } from "../context/CartContext";
 import CheckoutForm from "./CheckoutForm";
 import OrderSuccess from "./OrderSuccess";
+import OrderFailed from "./OrderFailed";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext);
@@ -17,6 +18,7 @@ const Sidebar = () => {
   const [postanskiBroj, setPostanskiBroj] = useState("");
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailedModal, setShowFailedModal] = useState(false);
   const [hideCartItems, setHideCartItems] = useState(false);
 
   useEffect(() => {
@@ -59,6 +61,8 @@ const Sidebar = () => {
       _id: '',
       ime,
       brojTel,
+      grad,
+      postanskiBroj,
       adresa,
       proizvodi: cart.map(item => ({ 
         naziv: item.naziv, 
@@ -110,6 +114,7 @@ const Sidebar = () => {
 
     } catch (error) {
       console.error('Greška prilikom kreiranja narudžbe:', error);
+      setShowFailedModal(true);
     }
   };
 
@@ -150,12 +155,14 @@ const Sidebar = () => {
             <FiTrash2 />
           </div>
         </div>
+        {!hideCartItems && cart.length > 0 && (
         <button
           onClick={handleOrderClick}
           className="bg-primary flex p-3 justify-center items-center text-white w-full font-medium hover:bg-black duration-500"
         >
           Naruči
         </button>
+        )}
         {showCheckoutForm && (
           <CheckoutForm
           ime={ime}
@@ -173,6 +180,9 @@ const Sidebar = () => {
         )}
         {showSuccessModal && (
           <OrderSuccess onClose={() => setShowSuccessModal(false)} />
+        )}
+        {showFailedModal && (
+          <OrderFailed onClose={() => setShowFailedModal(false)} />
         )}
       </div>
     </div>

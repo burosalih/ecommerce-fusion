@@ -9,11 +9,20 @@ function EditProductForm({ product, onSave, onClose }) {
   }, [product]); // Ovo će se pokrenuti svaki put kada se promeni product prop
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, checked } = e.target;
+    const newValue = e.target.type === 'checkbox' ? checked : value;
+
     setEditedProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: value,
+      [name]: newValue,
     }));
+
+    if (name === 'unisex' && checked) {
+      setEditedProduct((prevProduct) => ({
+        ...prevProduct,
+        spol: 'MZ',
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -53,6 +62,44 @@ function EditProductForm({ product, onSave, onClose }) {
             />
           </div>
           <div className="mb-4">
+            <label className="block text-sm font-semibold mb-1">Spol:</label>
+            <div>
+              <label htmlFor="muski" className="mr-4">
+                Muški
+                <input
+                  type="checkbox"
+                  id="muski"
+                  name="muski"
+                  checked={editedProduct.spol === 'M'}
+                  onChange={() => handleInputChange({ target: { name: 'spol', value: 'M' } })}
+                  className="ml-2"
+                />
+              </label>
+              <label htmlFor="zenski" className="mr-4">
+                Ženski
+                <input
+                  type="checkbox"
+                  id="zenski"
+                  name="zenski"
+                  checked={editedProduct.spol === 'Z'}
+                  onChange={() => handleInputChange({ target: { name: 'spol', value: 'Z' } })}
+                  className="ml-2"
+                />
+              </label>
+              <label htmlFor="unisex" className="mr-4">
+                Unisex
+                <input
+                  type="checkbox"
+                  id="unisex"
+                  name="unisex"
+                  checked={editedProduct.spol === 'MZ'}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+              </label>
+            </div>
+          </div>
+          <div className="mb-4">
             <label htmlFor="opis" className="block text-sm font-semibold mb-1">
               Opis:
             </label>
@@ -63,6 +110,9 @@ function EditProductForm({ product, onSave, onClose }) {
               onChange={handleInputChange}
               className="border border-gray-300 rounded-md px-3 py-2 w-full h-64 resize-none"
             />
+            <label htmlFor="slika" className="block text-sm font-semibold mb-1">
+              Slika:
+            </label>
             <input type="file" accept="image/*" className="py-2" />
           </div>
           <div className="flex justify-end">
