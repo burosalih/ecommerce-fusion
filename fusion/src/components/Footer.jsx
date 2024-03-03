@@ -24,7 +24,7 @@ const Footer = forwardRef((props, ref) => (
       <div className="text-white mb-8 md:mb-0 md:mr-8">
         <p className="lg:text-center">Partneri stanice: </p>
         <a
-          href="https://kamagra-hrvatska.com/"
+          href="https://kamagra-balkan.com/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center py-2 text-lg md:text-xl"
@@ -33,7 +33,7 @@ const Footer = forwardRef((props, ref) => (
           <p className="md:text-sm lg:text-lg">KAMAGRA BALKAN</p>
         </a>
         <a
-          href="https://kamagra-hrvatska.com/"
+          href="https://kamagra.ba/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center py-2 text-lg md:text-xl"
@@ -48,7 +48,7 @@ const Footer = forwardRef((props, ref) => (
           className="flex items-center py-2 text-lg md:text-xl"
         >
           <FaGlobe className="mr-2 text-xl md:text-2xl" />
-          <p className="md:text-sm lg:text-lg">KAMAGRA BALKAN</p>
+          <p className="md:text-sm lg:text-lg">KAMAGRA HRVATSKA</p>
         </a>
       </div>
       <div className="text-white md:text-center">© 2024 POTENCIJA KAMAGRA</div>
