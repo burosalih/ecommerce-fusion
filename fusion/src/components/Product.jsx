@@ -12,6 +12,7 @@ const Product = ({ product }) => {
     <div>
       <div className="border border-gray-300 rounded-3xl h-[300px] mb-4 relative overflow-hidden group transition hover:border-gray-600">
         <div className="w-full h-full flex justify-center items-center">
+          <Link to={`/product/${_id}`}>
           <div className="w-[200px] mx-auto flex justify-center items-center">
             <img
               className="max-h-[160px] group-hover:scale-110 transition duration-300"
@@ -19,6 +20,7 @@ const Product = ({ product }) => {
               alt=""
             />
           </div>
+          </Link>
         </div>
         <div className="absolute top-6 -right-11 group-hover:right-5 p-2 flex flex-col justify-center items-center gap-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
           <button onClick={() => addToCart(product)}>

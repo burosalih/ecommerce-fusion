@@ -50,7 +50,7 @@ const Hero = ({scrollToProducts}) => {
             <span className="font-light text-3xl">Mjesto za ispunjenje vaših najdubljih želja</span>
           </h1>
           {showButtons && (
-            <div className="space-x-4 mt-8">
+            <div className="space-x-4 space-y-4 mt-8">
               <button
                 onClick={scrollToProducts}
                 className="uppercase font-semibold border-b-2 border-primary px-8 py-3 text-lg text-primary hover:text-white hover:bg-fuchsia-900 transition-all duration-300 rounded-md bg-white"
