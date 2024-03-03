@@ -123,6 +123,7 @@ const Sidebar = () => {
         - Grad: ${orderData.grad}
         - Poštanski broj: ${orderData.postanskiBroj}
         - Adresa: ${orderData.adresa}
+        - Poštarina: 9KM
 
         Proizvodi:
         ${orderData.proizvodi
@@ -202,6 +203,7 @@ const Sidebar = () => {
           <div className="font-semibold">
             <span className="mr-2">Ukupno:</span>KM{" "}
             {parseFloat(total).toFixed(2)}
+            <span className="mr-2"> + 9KM POŠTARINA</span>
           </div>
           <div
             onClick={clearCart}
