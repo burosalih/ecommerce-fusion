@@ -1,16 +1,18 @@
 import React, { useContext, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { ProductContext } from "../context/ProductContext";
 import parse from "html-react-parser";
 import ProductAdded from "../components/ProductAdded";
+import ProductCarousel from "../components/ProductCarousel";
+import "../carousel.css";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useContext(CartContext);
   const { products } = useContext(ProductContext);
   const [isAdded, setIsAdded] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const product = products[id - 1];
 
@@ -22,14 +24,14 @@ const ProductDetails = () => {
     );
   }
 
-  const { naziv, cijena, opis, slika } = product;
+  const { _id, naziv, cijena, opis, slika } = product;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleAddToCart = () => {
-    addToCart(product, product._id);
+    addToCart(product, _id); 
     setIsAdded(true);
     scrollToTop();
 
@@ -62,6 +64,14 @@ const ProductDetails = () => {
             {isAdded && (
               <ProductAdded onClose={() => setIsAdded(false)} />
             )}
+          </div>
+        </div>
+        <div className="mt-auto">
+          <h2 className="text-center font-bold text-xl my-10">
+            Preporučujemo vam:
+          </h2>
+          <div className="blurry-carousel-wrapper">
+          <ProductCarousel products={products} currentProductId={_id} />
           </div>
         </div>
       </div>
