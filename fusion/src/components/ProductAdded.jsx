@@ -10,7 +10,7 @@ const ProductAdded = ({ onClose }) => {
     const timeout = setTimeout(() => {
       setIsVisible(false);
       onClose();
-    }, 3000);
+    }, 1500);
 
     return () => clearTimeout(timeout);
   }, [onClose]);
