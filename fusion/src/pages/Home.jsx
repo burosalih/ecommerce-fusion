@@ -30,7 +30,7 @@ const Home = () => {
         </div>
       </section>
       <section className="max-w-7xl mx-auto py-20 px-10">
-      <h1 className="text-center  text-4xl font-bold uppercase tracking-widest font-bold mb-8">
+      <h1 className="text-center  text-4xl uppercase tracking-widest font-bold mb-8">
         ČESTA PITANJA
       </h1>
 
