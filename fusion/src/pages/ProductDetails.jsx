@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { CartContext } from "../context/CartContext";
 import { ProductContext } from "../context/ProductContext";
-import parse from "html-react-parser"; 
+import parse from "html-react-parser";
+import ProductAdded from "../components/ProductAdded";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useContext(CartContext);
   const { products } = useContext(ProductContext);
+  const [isAdded, setIsAdded] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
   const product = products[id - 1];
 
@@ -21,8 +24,21 @@ const ProductDetails = () => {
 
   const { naziv, cijena, opis, slika } = product;
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleAddToCart = () => {
     addToCart(product, product._id);
+    setIsAdded(true);
+    scrollToTop();
+
+    setTimeout(() => {
+      setIsAdded(false);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }, 1000);
   };
 
   return (
@@ -40,11 +56,12 @@ const ProductDetails = () => {
               {cijena} KM
             </div>
             {parse(opis)}
-            <Link to="/" onClick={handleAddToCart}>
-              <button className="bg-primary py-4 mt-4 px-8 text-white">
-                Dodaj u korpu
-              </button>
+            <Link onClick={handleAddToCart} className="bg-primary py-4 mt-4 px-8 text-white inline-block">
+              Dodaj u korpu
             </Link>
+            {isAdded && (
+              <ProductAdded onClose={() => setIsAdded(false)} />
+            )}
           </div>
         </div>
       </div>
