@@ -33,7 +33,7 @@ const Footer = forwardRef((props, ref) => (
           <p className="md:text-sm lg:text-lg">KAMAGRA BALKAN</p>
         </a>
         <a
-          href="https://kamagra.ba/"
+          href="https://kamagrapotencija.ba/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center py-2 text-lg md:text-xl"
