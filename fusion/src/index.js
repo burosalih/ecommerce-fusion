@@ -7,10 +7,12 @@ import ProductProvider from "./context/ProductContext";
 import SidebarProvider from "./context/SidebarContext";
 import CartProvider from "./context/CartContext";
 import OrdersProvider from "./context/OrdersContext";
+import InformationMessageProvider from "./context/InformationMessageContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <OrdersProvider>
+  <InformationMessageProvider>
+    <OrdersProvider>
     <SidebarProvider>
       <CartProvider>
         <ProductProvider>
@@ -21,4 +23,6 @@ root.render(
       </CartProvider>
     </SidebarProvider>
   </OrdersProvider>
+  </InformationMessageProvider>
+  
 );

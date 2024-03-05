@@ -1,6 +1,10 @@
-import React from "react";
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
@@ -18,7 +22,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = () => {
-    setIsLoggedIn(true); 
+    setIsLoggedIn(true);
   };
 
   return (
@@ -31,7 +35,7 @@ function App() {
               <>
                 <Header />
                 <Home />
-                <FloatingButton/>
+                <FloatingButton />
                 <Footer />
               </>
             }
@@ -42,7 +46,7 @@ function App() {
               <>
                 <Header />
                 <Muskarci />
-                <FloatingButton/>
+                <FloatingButton />
                 <Footer />
               </>
             }
@@ -53,7 +57,7 @@ function App() {
               <>
                 <Header />
                 <Zene />
-                <FloatingButton/>
+                <FloatingButton />
                 <Footer />
               </>
             }
@@ -64,7 +68,7 @@ function App() {
               <>
                 <Header />
                 <ProductDetails />
-                <FloatingButton/>
+                <FloatingButton />
                 <Footer />
               </>
             }
@@ -75,7 +79,7 @@ function App() {
               <>
                 <Header />
                 <Savjeti />
-                <FloatingButton/>
+                <FloatingButton />
                 <Footer />
               </>
             }
