@@ -1,8 +1,9 @@
-
-
 const ReviewCard = ({ imgURL, customerName, rating, feedback }) => {
   return (
     <div className='flex justify-center items-center flex-col'>
+      <h3 className='my-1 font-palanquin text-3xl text-center font-bold'>
+        {customerName}
+      </h3>
       <img
         src={imgURL}
         alt='customer'
@@ -19,9 +20,6 @@ const ReviewCard = ({ imgURL, customerName, rating, feedback }) => {
         />
         <p className='text-xl font-montserrat text-slate-gray'>({rating})</p>
       </div>
-      <h3 className='mt-1 font-palanquin text-3xl text-center font-bold'>
-        {customerName}
-      </h3>
     </div>
   );
 };

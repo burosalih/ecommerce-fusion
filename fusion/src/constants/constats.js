@@ -2,19 +2,19 @@
 export const reviews = [
     {
         imgURL: require('../assets/blankpicture.png'), // Assuming blankpicture.png is in the assets folder
-        customerName: 'Salih Buro',
+        customerName: 'Dženan Mustafić',
         rating: 4.5,
-        feedback: "Oduševljen/a sam svojom nedavnom kupovinom! Proizvod je stigao brzo i u izvrsnom stanju. Kvalitet je izvanredan, čak i bolji nego što sam očekivao/la. Uz to, korisnička podrška bila je vrhunska - vrlo ljubazni i susretljivi. Ne mogu dovoljno preporučiti ovaj proizvod i trgovinu. Sigurno ću ponovno kupovati od njih u budućnosti!"
+        feedback: "Oduševljen sam svojom nedavnom kupovinom! Proizvod je stigao brzo i u izvrsnom stanju. Kvalitet je izvanredan, čak i bolji nego što sam očekivao. Uz to, korisnička podrška bila je vrhunska - vrlo ljubazni i susretljivi. Ne mogu dovoljno preporučiti ovaj proizvod i trgovinu. Sigurno ću ponovno kupovati od njih u budućnosti!"
     },
     {
         imgURL: require('../assets/blankpicture.png'), // Assuming blankpicture.png is in the assets folder
-        customerName: 'Adem Halilovic',
+        customerName: 'Mirza Kovačević',
         rating: 5.0,
-        feedback: "Ovo je bila najbolja kupovina koju sam ikada napravio/la! Proizvod je stigao munjevitom brzinom, a kvaliteta je apsolutno izvanredna. Izgleda čak bolje nego na slikama! Moram istaknuti i njihovu iznimnu korisničku podršku - bili su tako ljubazni i spremni pomoći u svakom trenutku. Toplo preporučujem ovaj proizvod i trgovinu svima!"
+        feedback: "Ovo je bila najbolja kupovina koju sam ikada napravio! Proizvod je stigao munjevitom brzinom, a kvaliteta je apsolutno izvanredna. Izgleda čak bolje nego na slikama! Moram istaknuti i njihovu iznimnu korisničku podršku - bili su tako ljubazni i spremni pomoći u svakom trenutku. Toplo preporučujem ovaj proizvod i trgovinu svima!"
     },
     {
         imgURL: require('../assets/blankpicture.png'), // Assuming blankpicture.png is in the assets folder
-        customerName: 'Kenan Čosić',
+        customerName: 'Adnan Begić',
         rating: 5.0,
         feedback: "Oduševljen sam svojom nedavnom kupnjom! Proizvod je stigao brzo i besprijekorno. Kvaliteta je zaista izvanredna, čak i bolja nego što sam se nadao. Ono što me posebno impresioniralo bila je njihova korisnička podrška - bili su tako susretljivi i ljubazni u rješavanju svih mojih upita. Ovo je definitivno trgovina na koju se možete osloniti. Ponovno ću kupovati od njih bez ikakve sumnje!"
     }

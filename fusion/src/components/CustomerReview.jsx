@@ -20,6 +20,7 @@ const CustomerReviews = () => {
             imgURL={review.imgURL}
             rating={review.rating}
             feedback={review.feedback}
+            customerName={review.customerName}
           />
         ))}
       </div>
