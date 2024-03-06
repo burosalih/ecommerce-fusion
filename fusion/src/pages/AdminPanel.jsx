@@ -5,6 +5,7 @@ import { OrdersContext } from "../context/OrdersContext";
 import { InformationMessageContext } from "../context/InformationMessageContext";
 import { AiOutlineMenu } from "react-icons/ai";
 import EditProductForm from "../components/EditProductForm";
+import EditMessageForm from "../components/EditMessageForm";
 
 function AdminPanel() {
   const { message, setMessege } = useContext(InformationMessageContext);
@@ -25,10 +26,39 @@ function AdminPanel() {
     setEditedMessage(mess);
   };
 
-  const handleSave = () => {
+  const handleSaveEditMessage = async (mess) => {
     // Ovdje implementirajte logiku za čuvanje uređene poruke
-    setEditMode(false);
-    // Možete poslati uređenu poruku na server ili izvršiti neku drugu akciju
+    console.log("USLO U SAVE METODU");
+    console.log(mess);
+
+    try {
+      // Dohvati sve poruke
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/poruka/0/poruka.json"
+      );
+      const data = await response.json();
+
+      // Napravi PUT zahtjev samo za pronađeni proizvod
+      const updateResponse = await fetch(
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/poruka/0/poruka/0.json`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(mess),
+        }
+      );
+
+      if (!updateResponse.ok) {
+        throw new Error("Neuspješan zahtjev za ažuriranje poruke");
+      }
+
+      setEditMode(false); // Zatvori formu za uređivanje
+      console.log("Poruka uspješno ažuriran");
+    } catch (error) {
+      console.error("Greška prilikom ažuriranja proizvoda:", error);
+    }
   };
 
   const [editProduct, setEditProduct] = useState({
@@ -430,6 +460,13 @@ function AdminPanel() {
                   </li>
                 ))}
               </ul>
+              {editMode && (
+                <EditMessageForm
+                  message={message[0]}
+                  onSave={handleSaveEditMessage}
+                  onClose={() => setEditMode(false)}
+                />
+              )}
             </div>
           )}
         </div>
