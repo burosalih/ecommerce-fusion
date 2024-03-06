@@ -50,10 +50,10 @@ const Home = () => {
         <CustomerReviews />
       </section>
 
-      <div className="fixed top-20 right-5 z-50">
+      <div className="fixed top-20 right-5">
         {message.map((mes, index) => {
           return (
-            <div key={index} style={{ marginTop: "10px" }}>
+            <div key={index} style={{ marginTop: "10px", zIndex: 15}}>
               <InformationMessage message={mes} />
             </div>
           );
