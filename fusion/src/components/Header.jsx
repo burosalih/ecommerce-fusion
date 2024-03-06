@@ -115,7 +115,7 @@ const Header = () => {
           <BsList className="text-2xl text-white" />
         </div>
         {isDropdownOpen && (
-          <div className="absolute top-full bg-white left-0 w-full shadow-lg rounded-br-2xl">
+          <div className="absolute top-full bg-white left-0 w-full shadow-lg rounded-br-2xl z-20">
             {menuItems.map((item, index) => (
               <div key={index} className="relative">
                 <Link
