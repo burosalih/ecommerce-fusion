@@ -2,16 +2,64 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../context/ProductContext";
 import { OrdersContext } from "../context/OrdersContext";
+import { InformationMessageContext } from "../context/InformationMessageContext";
 import { AiOutlineMenu } from "react-icons/ai";
 import EditProductForm from "../components/EditProductForm";
+import EditMessageForm from "../components/EditMessageForm";
 
 function AdminPanel() {
+  const { message, setMessege } = useContext(InformationMessageContext);
   const { orders, setOrders } = useContext(OrdersContext);
   const { products, setProducts } = useContext(ProductContext);
   const [activeView, setActiveView] = useState("products");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAddProductFormOpen, setIsAddProductFormOpen] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editedMessage, setEditedMessage] = useState({
+    tekst: "",
+    prikazi: false,
+  });
+
+  const handleEditClick = (mess) => {
+    setEditMode(true);
+    setEditedMessage(mess);
+  };
+
+  const handleSaveEditMessage = async (mess) => {
+    // Ovdje implementirajte logiku za čuvanje uređene poruke
+    console.log("USLO U SAVE METODU");
+    console.log(mess);
+
+    try {
+      // Dohvati sve poruke
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/poruka/0/poruka.json"
+      );
+      const data = await response.json();
+
+      // Napravi PUT zahtjev samo za pronađeni proizvod
+      const updateResponse = await fetch(
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/poruka/0/poruka/0.json`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(mess),
+        }
+      );
+
+      if (!updateResponse.ok) {
+        throw new Error("Neuspješan zahtjev za ažuriranje poruke");
+      }
+
+      setEditMode(false); // Zatvori formu za uređivanje
+      console.log("Poruka uspješno ažuriran");
+    } catch (error) {
+      console.error("Greška prilikom ažuriranja proizvoda:", error);
+    }
+  };
 
   const [editProduct, setEditProduct] = useState({
     _id: "",
@@ -245,6 +293,12 @@ function AdminPanel() {
           >
             Narudžbe
           </li>
+          <li
+            className="px-4 py-2 hover:bg-emerald-500 cursor-pointer text-2xl"
+            onClick={() => handleViewChange("message")}
+          >
+            Informativna Poruka
+          </li>
         </ul>
         <Link
           to="/login"
@@ -387,6 +441,32 @@ function AdminPanel() {
                   ) : null
                 )}
               </ul>
+            </div>
+          )}
+          {activeView === "message" && (
+            <div>
+              <h1 className="text-3xl font-bold mb-4">Poruka</h1>
+              <ul className="overflow-auto">
+                {message.map((mess) => (
+                  <li className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white">
+                    <div>Tekst poruke : {mess.tekst}</div>
+                    <div>Prikazi poruku: {mess.prikazi ? "DA" : "NE"}</div>
+                    <button
+                      onClick={() => handleEditClick(mess)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+                    >
+                      Uredi
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {editMode && (
+                <EditMessageForm
+                  message={message[0]}
+                  onSave={handleSaveEditMessage}
+                  onClose={() => setEditMode(false)}
+                />
+              )}
             </div>
           )}
         </div>
