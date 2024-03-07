@@ -8,7 +8,7 @@ import EditProductForm from "../components/EditProductForm";
 import EditMessageForm from "../components/EditMessageForm";
 
 function AdminPanel() {
-  const { message, setMessege } = useContext(InformationMessageContext);
+  const { message, setMessage } = useContext(InformationMessageContext);
   const { orders, setOrders } = useContext(OrdersContext);
   const { products, setProducts } = useContext(ProductContext);
   const [activeView, setActiveView] = useState("products");
@@ -54,7 +54,8 @@ function AdminPanel() {
         throw new Error("Neuspješan zahtjev za ažuriranje poruke");
       }
 
-      setEditMode(false); // Zatvori formu za uređivanje
+      setEditMode(false);
+      fetchInformationMessage(); // Zatvori formu za uređivanje
       console.log("Poruka uspješno ažuriran");
     } catch (error) {
       console.error("Greška prilikom ažuriranja proizvoda:", error);
@@ -265,9 +266,26 @@ function AdminPanel() {
     }
   };
 
+  const fetchInformationMessage = async () => {
+    try {
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/poruka/0/poruka.json"
+      );
+      const data = await response.json();
+
+      // Filtrirajte objekte koji nisu null
+      const filteredData = Object.values(data).filter((mess) => mess !== null);
+
+      setMessage(filteredData);
+    } catch (error) {
+      console.error("Greška prilikom dohvatanja poruka:", error);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchProducts();
+    fetchInformationMessage();
   }, []);
 
   return (
