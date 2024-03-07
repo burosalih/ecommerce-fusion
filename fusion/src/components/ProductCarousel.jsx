@@ -12,16 +12,16 @@ const ProductCarousel = ({ products, currentProductId }) => {
   const settings = {
     dots: false,
     infinite: true,
-    speed: 2000,
+    speed: 1000,
     slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
-    swipeToSlide: true,
+    autoplaySpeed: 2500,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
+          swipeToSlide: true,
           slidesToShow: 2,
           slidesToScroll: 1,
         },
@@ -29,6 +29,8 @@ const ProductCarousel = ({ products, currentProductId }) => {
       {
         breakpoint: 600,
         settings: {
+          speed: 500,
+          swipeToSlide: true,
           slidesToShow: 1,
           slidesToScroll: 1,
         },
@@ -36,16 +38,12 @@ const ProductCarousel = ({ products, currentProductId }) => {
     ],
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       <Slider {...settings}>
         {filteredProducts.map((product) => (
           <div key={product._id} className="h-64 relative">
-            <Link to={`/product/${product._id}`} onClick={scrollToTop} className="outline-none block">
+            <Link to={`/product/${product._id}`} className="outline-none block">
               <img
                 className="absolute inset-3 mx-auto max-h-48 p-4"
                 src={product.slika}

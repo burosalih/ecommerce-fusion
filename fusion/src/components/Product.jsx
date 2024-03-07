@@ -18,16 +18,12 @@ const Product = ({ product }) => {
   const handleClose = () => {
     setIsAdded(false);
   };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
+  
   return (
     <div>
       <div className="border border-gray-300 rounded-3xl h-[300px] mb-4 relative overflow-hidden group transition hover:border-gray-600">
         <div className="w-full h-full flex justify-center items-center">
-          <Link to={`/product/${_id}`} onClick={scrollToTop}>
+          <Link to={`/product/${_id}`}>
             <div className="w-[200px] mx-auto flex justify-center items-center">
               <img
                 className="max-h-[160px] group-hover:scale-110 transition duration-300"

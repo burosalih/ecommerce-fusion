@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { ProductContext } from "../context/ProductContext";
@@ -13,8 +13,19 @@ const ProductDetails = () => {
   const { products } = useContext(ProductContext);
   const [isAdded, setIsAdded] = useState(false);
   const navigate = useNavigate();
+  const [scrollY, setScrollY] = useState(0);
 
   const product = products[id - 1];
+
+  useEffect(() => {
+    // Scroll to top when the id parameter changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setScrollY(0);
+  }, [id]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: scrollY, behavior: "smooth" });
+  };
 
   if (!product) {
     return (
@@ -26,14 +37,11 @@ const ProductDetails = () => {
 
   const { _id, naziv, cijena, opis, slika } = product;
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const handleAddToCart = () => {
     addToCart(product, _id); 
     setIsAdded(true);
-    scrollToTop();
+    // Store the current scroll position
+    setScrollY(window.scrollY);
 
     setTimeout(() => {
       setIsAdded(false);
@@ -71,7 +79,7 @@ const ProductDetails = () => {
             Preporučujemo vam:
           </h2>
           <div className="blurry-carousel-wrapper">
-          <ProductCarousel products={products} currentProductId={_id} />
+            <ProductCarousel products={products} currentProductId={_id} />
           </div>
         </div>
       </div>
