@@ -13,12 +13,19 @@ const ProductDetails = () => {
   const { products } = useContext(ProductContext);
   const [isAdded, setIsAdded] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [id]); // Scroll to top when id changes
+  const [scrollY, setScrollY] = useState(0);
 
   const product = products[id - 1];
+
+  useEffect(() => {
+    // Scroll to top when the id parameter changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setScrollY(0);
+  }, [id]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: scrollY, behavior: "smooth" });
+  };
 
   if (!product) {
     return (
@@ -33,7 +40,8 @@ const ProductDetails = () => {
   const handleAddToCart = () => {
     addToCart(product, _id); 
     setIsAdded(true);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top after adding to cart
+    // Store the current scroll position
+    setScrollY(window.scrollY);
 
     setTimeout(() => {
       setIsAdded(false);

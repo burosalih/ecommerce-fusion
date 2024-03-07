@@ -12,16 +12,16 @@ const ProductCarousel = ({ products, currentProductId }) => {
   const settings = {
     dots: false,
     infinite: true,
-    speed: 2000,
+    speed: 1000,
     slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
-    swipeToSlide: true,
+    autoplaySpeed: 2500,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
+          swipeToSlide: true,
           slidesToShow: 2,
           slidesToScroll: 1,
         },
@@ -29,6 +29,8 @@ const ProductCarousel = ({ products, currentProductId }) => {
       {
         breakpoint: 600,
         settings: {
+          speed: 500,
+          swipeToSlide: true,
           slidesToShow: 1,
           slidesToScroll: 1,
         },
