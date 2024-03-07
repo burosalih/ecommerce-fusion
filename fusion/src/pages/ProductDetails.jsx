@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { ProductContext } from "../context/ProductContext";
@@ -14,6 +14,10 @@ const ProductDetails = () => {
   const [isAdded, setIsAdded] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]); // Scroll to top when id changes
+
   const product = products[id - 1];
 
   if (!product) {
@@ -26,14 +30,10 @@ const ProductDetails = () => {
 
   const { _id, naziv, cijena, opis, slika } = product;
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const handleAddToCart = () => {
     addToCart(product, _id); 
     setIsAdded(true);
-    scrollToTop();
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top after adding to cart
 
     setTimeout(() => {
       setIsAdded(false);
@@ -71,7 +71,7 @@ const ProductDetails = () => {
             Preporučujemo vam:
           </h2>
           <div className="blurry-carousel-wrapper">
-          <ProductCarousel products={products} currentProductId={_id} />
+            <ProductCarousel products={products} currentProductId={_id} />
           </div>
         </div>
       </div>

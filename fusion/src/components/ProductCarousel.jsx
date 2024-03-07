@@ -36,16 +36,12 @@ const ProductCarousel = ({ products, currentProductId }) => {
     ],
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       <Slider {...settings}>
         {filteredProducts.map((product) => (
           <div key={product._id} className="h-64 relative">
-            <Link to={`/product/${product._id}`} onClick={scrollToTop} className="outline-none block">
+            <Link to={`/product/${product._id}`} className="outline-none block">
               <img
                 className="absolute inset-3 mx-auto max-h-48 p-4"
                 src={product.slika}
