@@ -39,7 +39,7 @@ const ProductCarousel = ({ products, currentProductId }) => {
   };
 
   return (
-    <div className="relative w-full mx-auto overflow-hidden">
+    <div className="relative w-full mx-auto">
       <Slider {...settings}>
         {filteredProducts.map((product) => (
           <div key={product._id} className="h-64 relative">
