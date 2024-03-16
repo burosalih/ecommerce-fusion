@@ -436,7 +436,7 @@ function AdminPanel() {
                     >
                       <div>ID Narudžbe : {order._id}</div>
                       <div>Ime : {order.ime}</div>
-                      <div>Broj telefona : {order.broj}</div>
+                      <div>Broj telefona : {order.brojTel}</div>
                       <div>Grad : {order.grad}</div>
                       <div>Poštanski broj : {order.postanskiBroj}</div>
                       <div>Adresa : {order.adresa}</div>
