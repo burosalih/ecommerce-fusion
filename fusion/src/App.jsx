@@ -17,6 +17,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import FloatingButton from "./components/FloatingButton";
 import Savjeti from "./pages/Savjeti";
+import Blog from "./pages/Blog";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -83,7 +84,17 @@ function App() {
                 <Footer />
               </>
             }
-          />
+          /><Route
+          path="/blog"
+          element={
+            <>
+              <Header />
+              <Blog />
+              <FloatingButton />
+              <Footer />
+            </>
+          }
+        />
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route
             path="/adminpanel"

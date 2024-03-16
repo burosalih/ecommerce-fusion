@@ -6,6 +6,8 @@ import { InformationMessageContext } from "../context/InformationMessageContext"
 import { AiOutlineMenu } from "react-icons/ai";
 import EditProductForm from "../components/EditProductForm";
 import EditMessageForm from "../components/EditMessageForm";
+import AddArticleForm from "../components/AddArticleForm";
+import EditArticleForm from "../components/EditArticleForm";
 
 function AdminPanel() {
   const { message, setMessage } = useContext(InformationMessageContext);
@@ -20,6 +22,93 @@ function AdminPanel() {
     tekst: "",
     prikazi: false,
   });
+  const [isAddArticleFormOpen, setIsAddArticleFormOpen] = useState(false);
+  const [editArticle, setEditArticle] = useState(null);
+  const [blogArticles, setBlogArticles] = useState([
+    {
+      id: 1,
+      naslov: "Sample Blog Post 1",
+      opis: "Description of Sample Blog Post 1",
+      imageUrl: "https://example.com/image1.jpg",
+    },
+    {
+      id: 2,
+      naslov: "Sample Blog Post 2",
+      opis: "Description of Sample Blog Post 2",
+      imageUrl: "https://example.com/image2.jpg",
+    },
+  ]);
+
+  const handleAddArticle = () => {
+    setIsAddArticleFormOpen(true);
+  };
+
+  const fetchBlogArticles = async () => {
+    try {
+      const response = await fetch("https://your-api-url/blog-articles");
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch blog articles");
+      }
+  
+      const data = await response.json();
+      setBlogArticles(data);
+      console.log("Blog articles fetched successfully");
+    } catch (error) {
+      console.error("Error fetching blog articles:", error);
+    }
+  };
+
+  const handleAddArticleFormSubmit = (article) => {
+    console.log("New Article:", article);
+    setBlogArticles([...blogArticles, article]);
+    setIsAddArticleFormOpen(false);
+  };
+
+  const handleEditArticle = (article) => {
+    setEditArticle(article);
+  };
+
+  const handleSaveEditedArticle = async (editedArticle) => {
+    try {
+      console.log("Edited Article:", editedArticle);
+      
+      const response = await fetch(`https://your-api-url/articles/${editedArticle.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedArticle),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to save edited article');
+      }
+  
+      setEditArticle(null);
+
+    } catch (error) {
+      console.error('Error saving edited article:', error);
+
+    }
+  };
+
+  const handleDeleteArticle = async (articleId) => {
+    try {
+      const response = await fetch(`https://your-api-url/delete-article/${articleId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete article');
+      }
+
+      fetchBlogArticles(); 
+      console.log('Article deleted successfully');
+    } catch (error) {
+      console.error('Error deleting article:', error);
+    }
+  };
 
   const handleEditClick = (mess) => {
     setEditMode(true);
@@ -317,6 +406,12 @@ function AdminPanel() {
           >
             Informativna Poruka
           </li>
+          <li
+            className="px-4 py-2 hover:bg-emerald-500 cursor-pointer text-2xl"
+            onClick={() => handleViewChange("blog")}
+          >
+            Blog
+          </li>
         </ul>
         <Link
           to="/login"
@@ -487,6 +582,53 @@ function AdminPanel() {
               )}
             </div>
           )}
+          {activeView === "blog" && (
+  <div>
+    <h1 className="text-3xl font-bold mb-4">Blog</h1>
+    <button
+      onClick={handleAddArticle}
+      className="bg-primary hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded mb-4"
+    >
+      Dodaj Artikal
+    </button>
+    <ul className="overflow-auto">
+      {blogArticles.map((article) => (
+  <li
+    key={article.id}
+    className="border border-gray-300 rounded-xl px-4 py-2 mb-4 bg-white"
+  >
+    <div className="flex items-center mb-2">
+      <img src={article.imageUrl} alt="Article Image" className="w-20 h-auto mr-4" />
+      <div>
+        <div>Naslov: {article.naslov}</div>
+        <div>Opis: {article.opis}</div>
+      </div>
+    </div>
+    <button
+      onClick={() => handleEditArticle(article)}
+      className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 mr-2 my-3 rounded-md"
+    >
+      Uredi
+    </button>
+    <button
+      onClick={() => handleDeleteArticle(article.id)}
+      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 mr-2 my-3 rounded-md"
+    >
+      Obriši
+    </button>
+  </li>
+))}
+
+    </ul>
+    {editArticle && ( 
+      <EditArticleForm
+        article={editArticle} 
+        onSave={handleSaveEditedArticle}
+        onClose={() => setEditArticle(null)}
+      />
+    )}
+  </div>
+)}
         </div>
       </div>
     </div>
