@@ -34,6 +34,16 @@ function AddArticleForm({ onAdd, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onAdd(newArticle);
+    handleClose();
+  };
+
+  const handleClose = () => {
+    setNewArticle({
+      naslov: '',
+      opis: '',
+      imageUrl: '',
+    });
+    onClose();
   };
 
   return (
@@ -79,7 +89,7 @@ function AddArticleForm({ onAdd, onClose }) {
             </div>
           )}
           <div className="flex justify-end">
-            <button type="button" onClick={onClose} className="mr-2 px-4 py-2 border border-gray-300 rounded-md">Odustani</button>
+            <button type="button" onClick={handleClose} className="mr-2 px-4 py-2 border border-gray-300 rounded-md">Odustani</button>
             <button type="submit" className="px-4 py-2 bg-primary text-white rounded-md">Dodaj</button>
           </div>
         </form>

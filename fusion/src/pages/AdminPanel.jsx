@@ -43,6 +43,10 @@ function AdminPanel() {
     setIsAddArticleFormOpen(true);
   };
 
+  const handleCloseAddArticleForm = () => {
+    setIsAddArticleFormOpen(false);
+  };
+
   const fetchBlogArticles = async () => {
     try {
       const response = await fetch("https://your-api-url/blog-articles");
@@ -595,6 +599,12 @@ function AdminPanel() {
               >
                 Dodaj Artikal
               </button>
+              {isAddArticleFormOpen && (
+                <AddArticleForm
+                  onAdd={handleAddArticleFormSubmit}
+                  onClose={handleCloseAddArticleForm}
+                />
+              )}
               <ul className="overflow-auto">
                 {blogArticles.map((article) => (
                   <li
