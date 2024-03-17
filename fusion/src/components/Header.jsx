@@ -69,6 +69,14 @@ const Header = () => {
       },
     },
     {
+      label: "Blog",
+      to: "/blog",
+      onClick: () => {
+        setIsDropdownOpen(false);
+        scrollToTop();
+      },
+    },
+    {
       label: "Proizvodi",
       onClick: toggleProizvodi,
       submenu: [
