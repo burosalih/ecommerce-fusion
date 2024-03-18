@@ -8,20 +8,23 @@ const ProductProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json");
+        const response = await fetch(
+          "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json"
+        );
         const data = await response.json();
-  
+
         // Filtrirajte objekte koji nisu null
-        const filteredData = Object.values(data).filter(product => product !== null);
-  
+        const filteredData = Object.values(data).filter(
+          (product) => product !== null
+        );
+        console.log(filteredData);
         setProducts(filteredData);
       } catch (error) {
-        console.error('Greška prilikom dohvatanja proizvoda:', error);
+        console.error("Greška prilikom dohvatanja proizvoda:", error);
       }
     };
     fetchProducts();
   }, []);
-  
 
   return (
     <ProductContext.Provider value={{ products, setProducts }}>

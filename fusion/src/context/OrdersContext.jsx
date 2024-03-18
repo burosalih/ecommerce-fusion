@@ -16,6 +16,7 @@ const OrdersProvider = ({ children }) => {
         const filteredData = Object.values(data).filter(
           (orders) => orders !== null
         );
+        console.log(filteredData);
         setOrders(filteredData);
       } catch (error) {
         console.error("Error fetching orders:", error);
