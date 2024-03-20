@@ -24,6 +24,7 @@ function AdminPanel() {
   });
   const [isAddArticleFormOpen, setIsAddArticleFormOpen] = useState(false);
   const [editArticle, setEditArticle] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [blogArticles, setBlogArticles] = useState([
     {
       id: 1,
@@ -38,6 +39,29 @@ function AdminPanel() {
       imageUrl: "https://example.com/image2.jpg",
     },
   ]);
+
+  const handleImageUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      formData.append("upload_preset", "your_upload_preset");
+      formData.append("folder", "blog");
+
+      const response = await fetch("endpoint", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      console.log("Image uploaded successfully:", data);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const handleAddArticle = () => {
     setIsAddArticleFormOpen(true);
@@ -634,6 +658,18 @@ function AdminPanel() {
                     >
                       Obriši
                     </button>
+                          <button
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.onchange = (e) => setImageFile(e.target.files[0]);
+                    input.click();
+                  }}
+                  className="bg-primary hover:bg-emerald-500 text-white font-bold py-1 px-2 mr-2 my-3 rounded-md"
+                >
+                  Slika
+                </button>
                   </li>
                 ))}
               </ul>

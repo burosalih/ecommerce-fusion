@@ -33,21 +33,20 @@ function BlogDetails() {
   }, []);
 
   return (
-    <section className="py-28 bg-gray-100">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:mx-8 gap-10 max-w-sm mx-auto md:max-w-none md:mx-0 mb-12">
-          <div className="bg-white rounded-md shadow-lg">
-            {/* Slika */}
+    <section className="pt-32 bg-gray-100 h-screen">
+      <div className="container mx-auto flex-col">
+        {/* Image */}
+          <div className="bg-white rounded-md shadow-lg md:w-1/3 mb-4 md:mb-2 md:mr-4 md:float-left">
             <img
               src={articles.slika}
               alt={articles[1]}
-              className="w-full h-48 object-cover rounded-t-md"
+              className="max-h-[500px] object-cover w-full"
             />
           </div>
-        </div>
-        {/* Naslov */}
-        <div className="p-4">
-          <h2 className="text-lg font-semibold mb-2">{articles[1]}</h2>
+        {/* Content */}
+        <div className="md:w-full p-4">
+          {/* Naslov */}
+          <h2 className="text-2xl font-semibold mb-2">{articles[1]}</h2>
           {/* Opis */}
           <p className="text-gray-600">{articles[2]}</p>
         </div>

@@ -5,7 +5,7 @@ const Footer = forwardRef((props, ref) => (
   <footer
     ref={ref}
     id="footer"
-    className="bg-gradient-to-b from-primary to-emerald-800 py-12"
+    className="bg-gradient-to-b from-primary to-emerald-800 py-12 static bottom-0 w-full"
   >
     <div className="container mx-auto flex flex-col md:flex-row md:items-center justify-between">
       <div className="text-white mb-8 md:mr-8">
