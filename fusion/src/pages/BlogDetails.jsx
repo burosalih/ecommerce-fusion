@@ -38,7 +38,7 @@ function BlogDetails() {
         {/* Image */}
           <div className="bg-white rounded-md shadow-lg md:w-1/3 mb-4 md:mb-2 md:mr-4 md:float-left">
             <img
-              src={"https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="}
+              src={articles.slika}
               alt={articles[1]}
               className="max-h-[500px] object-cover w-full"
             />
