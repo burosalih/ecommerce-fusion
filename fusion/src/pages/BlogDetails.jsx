@@ -1,57 +1,49 @@
 import { useParams } from "react-router-dom";
-import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 function BlogDetails() {
   const { id } = useParams();
-  const [articles, setArticles] = useState([]);
+  const [article, setArticle] = useState(null);
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchArticle = async () => {
       try {
         const response = await fetch(
-          "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog/" +
-            id +
-            ".json"
+          `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog/${id}.json`
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch articles");
+          throw new Error("Failed to fetch article");
         }
 
         const data = await response.json();
-
-        const articles = Object.values(data);
-        console.log("Ovo vraca");
-        console.log(articles);
-
-        setArticles(articles);
+        setArticle(data);
       } catch (error) {
-        console.error("Error fetching articles", error);
+        console.error("Error fetching article", error);
       }
     };
 
-    fetchArticles();
-  }, []);
+    fetchArticle();
+  }, [id]);
 
   return (
     <section className="pt-32 bg-gray-100 h-screen">
       <div className="container mx-auto flex-col">
-        {/* Image */}
-          <div className="bg-white rounded-md shadow-lg md:w-1/3 mb-4 md:mb-2 md:mr-4 md:float-left">
-            <img
-               src={require(`../blog/${articles[3]}.jpg`)}
-              alt={articles[1]}
-              className="max-h-[500px] object-cover w-full"
-            />
-          </div>
-        {/* Content */}
-        <div className="md:w-full p-4">
-          {/* Naslov */}
-          <h2 className="text-2xl font-semibold mb-2">{articles[1]}</h2>
-          {/* Opis */}
-          <p className="text-gray-600">{articles[2]}</p>
-        </div>
+        {article && (
+          <>
+            <div className="bg-white rounded-md shadow-lg md:w-1/3 mb-4 md:mb-2 md:mr-4 md:float-left">
+              <img
+               src={require(`../blog/${article.slika}.jpg`)} 
+                alt={article.naslov} 
+                className="max-h-[500px] object-cover w-full"
+              />
+            </div>
+            <div className="md:w-full p-4">
+              <h2 className="text-2xl font-semibold mb-2">{article.naslov}</h2>
+              <p className="text-gray-600">{article.opis}</p>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

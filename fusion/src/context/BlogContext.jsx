@@ -13,7 +13,6 @@ const BlogProvider = ({ children }) => {
           "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
         );
 
-        console.log(response);
         const data = await response.json();
 
         // Filtrirajte objekte koji nisu null
@@ -21,7 +20,6 @@ const BlogProvider = ({ children }) => {
           (blog) => blog !== null
         );
 
-        console.log(filteredData);
 
         setArticles(filteredData);
       } catch (error) {

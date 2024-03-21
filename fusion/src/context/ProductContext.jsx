@@ -17,7 +17,7 @@ const ProductProvider = ({ children }) => {
         const filteredData = Object.values(data).filter(
           (product) => product !== null
         );
-        console.log(filteredData);
+
         setProducts(filteredData);
       } catch (error) {
         console.error("Greška prilikom dohvatanja proizvoda:", error);

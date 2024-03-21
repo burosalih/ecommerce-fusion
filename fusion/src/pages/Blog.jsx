@@ -42,7 +42,6 @@ function Blog() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0 mb-12">
           {articles.map(
             (article) => (
-              console.log(articles),
               (
                 <div
                   key={article.id}

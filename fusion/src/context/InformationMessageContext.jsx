@@ -13,7 +13,7 @@ const InformationMessageProvider = ({ children }) => {
           "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/poruka/0/poruka.json"
         );
 
-        console.log(response);
+
         const data = await response.json();
 
         // Filtrirajte objekte koji nisu null
@@ -21,7 +21,6 @@ const InformationMessageProvider = ({ children }) => {
           (message) => message !== null
         );
 
-        console.log(filteredData);
 
         setMessage(filteredData);
       } catch (error) {

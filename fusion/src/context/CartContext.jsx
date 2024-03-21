@@ -54,7 +54,6 @@ const CartProvider = ({ children }) => {
 
   // izbacivanje iz korpe
   const removeFromCart = (id) => {
-    console.log(id);
     const newCart = cart.filter((item) => {
       return item._id !== id;
     });
@@ -74,7 +73,6 @@ const CartProvider = ({ children }) => {
 
   // smanjivanje kolicine artikla
   const decreaseAmount = (id) => {
-    console.log(id);
     const cartItem = cart.find((item) => item._id === id);
     if (cartItem) {
       const newCart = cart.map((item) => {
