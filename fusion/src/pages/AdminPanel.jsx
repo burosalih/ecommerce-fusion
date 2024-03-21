@@ -666,7 +666,7 @@ function AdminPanel() {
                   >
                     <div className="flex items-center mb-2">
                       <img
-                        src={article.imageUrl}
+                         src={require(`../blog/${article.slika}.jpg`)}
                         alt="Article Image"
                         className="w-20 h-auto mr-4"
                       />
@@ -688,18 +688,6 @@ function AdminPanel() {
                     >
                       Obriši
                     </button>
-                          <button
-                  onClick={() => {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = 'image/*';
-                    input.onchange = (e) => setImageFile(e.target.files[0]);
-                    input.click();
-                  }}
-                  className="bg-primary hover:bg-emerald-500 text-white font-bold py-1 px-2 mr-2 my-3 rounded-md"
-                >
-                  Slika
-                </button>
                   </li>
                 ))}
               </ul>
