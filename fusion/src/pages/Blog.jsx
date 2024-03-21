@@ -53,9 +53,9 @@ function Blog() {
                     className="block hover:opacity-80"
                   >
                     <img
-                      src={article.slika}
-                      alt={article.naslov}
-                      className="w-full h-48 object-cover rounded-t-md"
+                        src={require(`../blog/${article.slika}.jpg`)}
+                        alt={article.naslov}
+                        className="w-full h-48 object-cover rounded-t-md"
                     />
                     <div className="p-4">
                       <h2 className="text-lg font-semibold mb-2">

@@ -22,6 +22,8 @@ function BlogDetails() {
         const data = await response.json();
 
         const articles = Object.values(data);
+        console.log("Ovo vraca");
+        console.log(articles);
 
         setArticles(articles);
       } catch (error) {
@@ -38,7 +40,7 @@ function BlogDetails() {
         {/* Image */}
           <div className="bg-white rounded-md shadow-lg md:w-1/3 mb-4 md:mb-2 md:mr-4 md:float-left">
             <img
-              src={articles.slika}
+               src={require(`../blog/${articles[3]}.jpg`)}
               alt={articles[1]}
               className="max-h-[500px] object-cover w-full"
             />
