@@ -25,43 +25,38 @@ function AdminPanel() {
   const [isAddArticleFormOpen, setIsAddArticleFormOpen] = useState(false);
   const [editArticle, setEditArticle] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [blogArticles, setBlogArticles] = useState([
-    {
-      id: 1,
-      naslov: "Sample Blog Post 1",
-      opis: "Description of Sample Blog Post 1",
-      imageUrl: "https://example.com/image1.jpg",
-    },
-    {
-      id: 2,
-      naslov: "Sample Blog Post 2",
-      opis: "Description of Sample Blog Post 2",
-      imageUrl: "https://example.com/image2.jpg",
-    },
-  ]);
+  const [blogArticles, setBlogArticles] = useState([]);
 
-  const handleImageUpload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("file", imageFile);
-      formData.append("upload_preset", "your_upload_preset");
-      formData.append("folder", "blog");
+  useEffect(() => {
+      const fetchBlogs = async () => {
+          try {
+        
+              const response = await fetch(
+                  "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
+              );
+  
+              if (!response.ok) {
+                  throw new Error("Neuspelo dohvatanje blogova");
+              }
+  
+              const data = await response.json();
+  
+              // Filtrirajte objekte koji nisu null
+              const filteredData = Object.values(data).filter(
+                  (blog) => blog !== null
+              );
+  
+          
+  
+              setBlogArticles(filteredData);
+          } catch (error) {
+              console.error("Greška prilikom dohvatanja blogova", error);
+          }
+      };
+      fetchBlogs();
+  }, []);
 
-      const response = await fetch("endpoint", {
-        method: "POST",
-        body: formData,
-      });
 
-      if (!response.ok) {
-        throw new Error("Failed to upload image");
-      }
-
-      const data = await response.json();
-      console.log("Image uploaded successfully:", data);
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    }
-  };
 
   const handleAddArticle = () => {
     setIsAddArticleFormOpen(true);
@@ -71,27 +66,45 @@ function AdminPanel() {
     setIsAddArticleFormOpen(false);
   };
 
-  const fetchBlogArticles = async () => {
-    try {
-      const response = await fetch("https://your-api-url/blog-articles");
+ 
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch blog articles");
-      }
+  const handleAddArticleFormSubmit = async (article) => {
 
-      const data = await response.json();
-      setBlogArticles(data);
-      console.log("Blog articles fetched successfully");
-    } catch (error) {
-      console.error("Error fetching blog articles:", error);
+    const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
+    );
+    const data = await response.json();
+    let maxKey = 0;
+    for (const key in data) {
+        const currentKey = parseInt(key);
+        if (currentKey > maxKey) {
+            maxKey = currentKey;
+        }
     }
-  };
+    const newKey = maxKey + 1;
+    article.id = newKey;
+    const articleObject = {
+        [newKey]: { 
+            ...article
+        }
+    };
 
-  const handleAddArticleFormSubmit = (article) => {
-    console.log("New Article:", article);
+    const postResponse = await fetch('https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(articleObject)
+    });
+
+    if (!postResponse.ok) {
+        throw new Error('HTTP error! Status: ' + postResponse.status);
+    }
     setBlogArticles([...blogArticles, article]);
     setIsAddArticleFormOpen(false);
-  };
+};
+
+
 
   const handleEditArticle = (article) => {
     setEditArticle(article);
@@ -99,7 +112,7 @@ function AdminPanel() {
 
   const handleSaveEditedArticle = async (editedArticle) => {
     try {
-      console.log("Edited Article:", editedArticle);
+
 
       const response = await fetch(
         `https://your-api-url/articles/${editedArticle.id}`,
@@ -124,23 +137,24 @@ function AdminPanel() {
 
   const handleDeleteArticle = async (articleId) => {
     try {
-      const response = await fetch(
-        `https://your-api-url/delete-article/${articleId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const url = `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog/${articleId}.json`;
+
+      const response = await fetch(url, {
+        method: "DELETE",
+      });
+
 
       if (!response.ok) {
-        throw new Error("Failed to delete article");
+        throw new Error("Neuspješan zahtjev za brisanje bloga");
       }
 
-      fetchBlogArticles();
-      console.log("Article deleted successfully");
+      fetchBlogs();
+      console.log("Blog je uspešno obrisana.");
     } catch (error) {
-      console.error("Error deleting article:", error);
+      console.error("Greška prilikom brisanja bloga:", error);
     }
-  };
+};
+
 
   const handleEditClick = (mess) => {
     setEditMode(true);
@@ -149,8 +163,8 @@ function AdminPanel() {
 
   const handleSaveEditMessage = async (mess) => {
     // Ovdje implementirajte logiku za čuvanje uređene poruke
-    console.log("USLO U SAVE METODU");
-    console.log(mess);
+
+
 
     try {
       // Dohvati sve poruke
@@ -259,7 +273,7 @@ function AdminPanel() {
   };
 
   const handleAddProductFormSubmit = async () => {
-    console.log("Novi artikal:", newProduct);
+
     setIsAddProductFormOpen(false);
 
     try {
@@ -298,7 +312,7 @@ function AdminPanel() {
         throw new Error("Neuspješan zahtjev za dodavanje proizvoda");
       }
       fetchProducts();
-      console.log("Uspješno dodan proizvod sa ključem:", newKey);
+   
     } catch (error) {
       console.error("Greška prilikom dodavanja proizvoda:", error);
     }
@@ -312,7 +326,7 @@ function AdminPanel() {
         method: "DELETE",
       });
 
-      console.log(response);
+
       if (!response.ok) {
         throw new Error("Neuspješan zahtjev za brisanje narudzbe");
       }
@@ -332,7 +346,7 @@ function AdminPanel() {
         method: "DELETE",
       });
 
-      console.log(response);
+
       if (!response.ok) {
         throw new Error("Neuspješan zahtjev za brisanje proizvoda");
       }
@@ -366,14 +380,30 @@ function AdminPanel() {
     }
   };
 
+  const fetchBlogs = async () => {
+    try {
+      const response = await fetch(
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
+      );
+      const data = await response.json();
+
+      // Filtrirajte objekte koji nisu null
+      const filteredData = Object.values(data).filter(
+        (blog) => blog !== null
+      );
+
+      setBlogArticles(filteredData);
+    } catch (error) {
+      console.error("Greška prilikom dohvatanja proizvoda:", error);
+    }
+  };
+
   const fetchOrders = async () => {
     try {
       const response = await fetch(
         "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/narudzbe/0/narudzbe.json"
       );
-      console.log(response);
       const data = await response.json();
-      console.log(data);
 
       // Filtrirajte objekte koji nisu null
       const filteredData = Object.values(data).filter(
@@ -381,7 +411,6 @@ function AdminPanel() {
       );
 
       setOrders(filteredData);
-      console.log(filteredData);
     } catch (error) {
       console.error("Greška prilikom dohvatanja narudzbi:", error);
     }
@@ -644,6 +673,7 @@ function AdminPanel() {
                       <div>
                         <div>Naslov: {article.naslov}</div>
                         <div>Opis: {article.opis}</div>
+                        <div>Slika: {article.slika}</div>
                       </div>
                     </div>
                     <button

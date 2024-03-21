@@ -24,6 +24,7 @@ function AddArticleForm({ onAdd, onClose }) {
     setNewArticle({
       naslov: '',
       opis: '',
+      slika:''
     });
     onClose();
   };
@@ -52,6 +53,17 @@ function AddArticleForm({ onAdd, onClose }) {
               value={newArticle.opis}
               onChange={handleChange}
               className="border border-gray-300 px-3 py-2 rounded-md w-full h-32 resize-none"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="slika" className="block font-medium mb-1">Slika</label>
+            <input
+              type="text"
+              id="slika"
+              name="slika"
+              value={newArticle.slika}
+              onChange={handleChange}
+              className="border border-gray-300 px-3 py-2 rounded-md w-full"
             />
           </div>
           <div className="flex justify-end">

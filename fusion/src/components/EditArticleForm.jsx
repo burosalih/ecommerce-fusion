@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function EditArticleForm({ article, onSave, onClose }) {
   const [editedArticle, setEditedArticle] = useState(article);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedArticle({
@@ -40,6 +40,17 @@ function EditArticleForm({ article, onSave, onClose }) {
               value={editedArticle.opis}
               onChange={handleChange}
               className="border border-gray-300 px-3 py-2 rounded-md w-full h-32 resize-none"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="slika" className="block font-medium mb-1">Slika</label>
+            <input
+              type="text"
+              id="slika"
+              name="slika"
+              value={editedArticle.slika}
+              onChange={handleChange}
+              className="border border-gray-300 px-3 py-2 rounded-md w-full"
             />
           </div>
           <div className="flex justify-end">
