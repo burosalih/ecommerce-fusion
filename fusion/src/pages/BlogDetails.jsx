@@ -28,7 +28,7 @@ function BlogDetails() {
   }, [id]);
 
   return (
-    <section className="py-28 mb-16 h-screen">
+    <section className="pt-28 pb-32 mb-16 h-full">
       <div className="container mx-auto flex-col">
         {article && (
           <>
@@ -36,7 +36,7 @@ function BlogDetails() {
               <img
                 src={require(`../blog/${article.slika}.jpg`)}
                 alt={article.naslov}
-                className="max-h-[500px] object-cover w-full"
+                className="max-h-[500px] object-cover w-full rounded-lg shadow-xl"
               />
             </div>
             <div className="md:w-full p-4">
