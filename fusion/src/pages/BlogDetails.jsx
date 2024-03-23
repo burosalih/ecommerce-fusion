@@ -7,6 +7,7 @@ function BlogDetails() {
 
   useEffect(() => {
     const fetchArticle = async () => {
+      console.log(id);
       try {
         const response = await fetch(
           `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog/${id}.json`
@@ -27,14 +28,14 @@ function BlogDetails() {
   }, [id]);
 
   return (
-    <section className="pt-32 bg-gray-100 h-screen">
+    <section className="py-28 mb-16 h-screen">
       <div className="container mx-auto flex-col">
         {article && (
           <>
             <div className="bg-white rounded-md shadow-lg md:w-1/3 mb-4 md:mb-2 md:mr-4 md:float-left">
               <img
-               src={require(`../blog/${article.slika}.jpg`)} 
-                alt={article.naslov} 
+                src={require(`../blog/${article.slika}.jpg`)}
+                alt={article.naslov}
                 className="max-h-[500px] object-cover w-full"
               />
             </div>

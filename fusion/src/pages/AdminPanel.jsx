@@ -28,35 +28,30 @@ function AdminPanel() {
   const [blogArticles, setBlogArticles] = useState([]);
 
   useEffect(() => {
-      const fetchBlogs = async () => {
-          try {
-        
-              const response = await fetch(
-                  "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
-              );
-  
-              if (!response.ok) {
-                  throw new Error("Neuspelo dohvatanje blogova");
-              }
-  
-              const data = await response.json();
-  
-              // Filtrirajte objekte koji nisu null
-              const filteredData = Object.values(data).filter(
-                  (blog) => blog !== null
-              );
-  
-          
-  
-              setBlogArticles(filteredData);
-          } catch (error) {
-              console.error("Greška prilikom dohvatanja blogova", error);
-          }
-      };
-      fetchBlogs();
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch(
+          "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
+        );
+
+        if (!response.ok) {
+          throw new Error("Neuspelo dohvatanje blogova");
+        }
+
+        const data = await response.json();
+
+        // Filtrirajte objekte koji nisu null
+        const filteredData = Object.values(data).filter(
+          (blog) => blog !== null
+        );
+
+        setBlogArticles(filteredData);
+      } catch (error) {
+        console.error("Greška prilikom dohvatanja blogova", error);
+      }
+    };
+    fetchBlogs();
   }, []);
-
-
 
   const handleAddArticle = () => {
     setIsAddArticleFormOpen(true);
@@ -66,56 +61,71 @@ function AdminPanel() {
     setIsAddArticleFormOpen(false);
   };
 
- 
-
   const handleAddArticleFormSubmit = async (article) => {
-
     const response = await fetch(
-        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
+      "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
     );
     const data = await response.json();
     let maxKey = 0;
     for (const key in data) {
-        const currentKey = parseInt(key);
-        if (currentKey > maxKey) {
-            maxKey = currentKey;
-        }
+      const currentKey = parseInt(key);
+      if (currentKey > maxKey) {
+        maxKey = currentKey;
+      }
     }
     const newKey = maxKey + 1;
     article.id = newKey;
     const articleObject = {
-        [newKey]: { 
-            ...article
-        }
+      [newKey]: {
+        ...article,
+      },
     };
 
-    const postResponse = await fetch('https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json', {
-        method: 'PATCH',
+    const postResponse = await fetch(
+      "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json",
+      {
+        method: "PATCH",
         headers: {
-            'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(articleObject)
-    });
+        body: JSON.stringify(articleObject),
+      }
+    );
 
     if (!postResponse.ok) {
-        throw new Error('HTTP error! Status: ' + postResponse.status);
+      throw new Error("HTTP error! Status: " + postResponse.status);
     }
     setBlogArticles([...blogArticles, article]);
     setIsAddArticleFormOpen(false);
-};
-
-
+  };
 
   const handleEditArticle = (article) => {
     setEditArticle(article);
   };
 
   const handleSaveEditedArticle = async (editedArticle) => {
+    console.log("OVO JE PRAVA FUCKIJA");
+    console.log(editedArticle);
     try {
-
-
+      // Dohvati sve proizvode
       const response = await fetch(
-        `https://your-api-url/articles/${editedArticle.id}`,
+        "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog.json"
+      );
+      const data = await response.json();
+
+      console.log(data);
+
+      const blogIdToUpdate = Object.keys(data).find(
+        (blogId) => data[blogId].id === editedArticle.id
+      );
+
+      if (!blogIdToUpdate) {
+        throw new Error("Proizvod koji želite ažurirati nije pronađen");
+      }
+
+      // Napravi PUT zahtjev samo za pronađeni proizvod
+      const updateResponse = await fetch(
+        `https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/blog/0/blog/${blogIdToUpdate}.json`,
         {
           method: "PUT",
           headers: {
@@ -125,13 +135,15 @@ function AdminPanel() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to save edited article");
+      if (!updateResponse.ok) {
+        throw new Error("Neuspješan zahtjev za ažuriranje proizvoda");
       }
 
+      fetchBlogs();
       setEditArticle(null);
+      console.log("Proizvod uspješno ažuriran");
     } catch (error) {
-      console.error("Error saving edited article:", error);
+      console.error("Greška prilikom ažuriranja proizvoda:", error);
     }
   };
 
@@ -143,7 +155,6 @@ function AdminPanel() {
         method: "DELETE",
       });
 
-
       if (!response.ok) {
         throw new Error("Neuspješan zahtjev za brisanje bloga");
       }
@@ -153,8 +164,7 @@ function AdminPanel() {
     } catch (error) {
       console.error("Greška prilikom brisanja bloga:", error);
     }
-};
-
+  };
 
   const handleEditClick = (mess) => {
     setEditMode(true);
@@ -163,8 +173,6 @@ function AdminPanel() {
 
   const handleSaveEditMessage = async (mess) => {
     // Ovdje implementirajte logiku za čuvanje uređene poruke
-
-
 
     try {
       // Dohvati sve poruke
@@ -273,7 +281,6 @@ function AdminPanel() {
   };
 
   const handleAddProductFormSubmit = async () => {
-
     setIsAddProductFormOpen(false);
 
     try {
@@ -312,7 +319,6 @@ function AdminPanel() {
         throw new Error("Neuspješan zahtjev za dodavanje proizvoda");
       }
       fetchProducts();
-   
     } catch (error) {
       console.error("Greška prilikom dodavanja proizvoda:", error);
     }
@@ -325,7 +331,6 @@ function AdminPanel() {
       const response = await fetch(url, {
         method: "DELETE",
       });
-
 
       if (!response.ok) {
         throw new Error("Neuspješan zahtjev za brisanje narudzbe");
@@ -345,7 +350,6 @@ function AdminPanel() {
       const response = await fetch(url, {
         method: "DELETE",
       });
-
 
       if (!response.ok) {
         throw new Error("Neuspješan zahtjev za brisanje proizvoda");
@@ -388,9 +392,7 @@ function AdminPanel() {
       const data = await response.json();
 
       // Filtrirajte objekte koji nisu null
-      const filteredData = Object.values(data).filter(
-        (blog) => blog !== null
-      );
+      const filteredData = Object.values(data).filter((blog) => blog !== null);
 
       setBlogArticles(filteredData);
     } catch (error) {
@@ -666,7 +668,7 @@ function AdminPanel() {
                   >
                     <div className="flex items-center mb-2">
                       <img
-                         src={require(`../blog/${article.slika}.jpg`)}
+                        src={require(`../blog/${article.slika}.jpg`)}
                         alt="Article Image"
                         className="w-20 h-auto mr-4"
                       />
