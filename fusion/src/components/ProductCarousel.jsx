@@ -16,7 +16,7 @@ const ProductCarousel = ({ products, currentProductId }) => {
     slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2500,
+    autoplaySpeed: 1500,
     responsive: [
       {
         breakpoint: 1024,
