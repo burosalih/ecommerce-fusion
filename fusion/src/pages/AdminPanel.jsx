@@ -242,14 +242,16 @@ function AdminPanel() {
   const handleEditFormSubmit = async (editedProduct) => {
     try {
       // Dohvati sve proizvode
+      console.log(editedProduct);
       const response = await fetch(
         "https://fusion-38461-default-rtdb.europe-west1.firebasedatabase.app/proizvodi/proizvodi.json"
       );
       const data = await response.json();
+      console.log(data);
 
       // Pronađi proizvod koji želite ažurirati
       const productIdToUpdate = Object.keys(data).find(
-        (productId) => data[productId]._id === editedProduct._id
+        (productId) => data[productId] && data[productId]._id === editedProduct._id
       );
 
       if (!productIdToUpdate) {
@@ -534,7 +536,16 @@ function AdminPanel() {
                     }
                     className="border border-gray-400 px-2 py-1 mr-2 rounded-lg w-full h-[300px] mb-4 resize-none"
                   />
-                  <input type="file" accept="image/*" className="py-2" />
+                   <input
+                    type="text"
+                    placeholder="Slika"
+                    value={newProduct.slika}
+                    onChange={(e) =>
+                      setNewProduct({ ...newProduct, slika: e.target.value })
+                    }
+                    className="border border-gray-400 px-2 py-1 mr-2 mb-2 rounded-lg"
+                  />
+                
                   <button
                     onClick={handleAddProductFormSubmit}
                     className="bg-primary hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded"

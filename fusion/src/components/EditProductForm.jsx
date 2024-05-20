@@ -110,10 +110,19 @@ function EditProductForm({ product, onSave, onClose }) {
               onChange={handleInputChange}
               className="border border-gray-300 rounded-md px-3 py-2 w-full h-64 resize-none"
             />
+           <div className="mb-4">
             <label htmlFor="slika" className="block text-sm font-semibold mb-1">
               Slika:
             </label>
-            <input type="file" accept="image/*" className="py-2" />
+            <input
+              type="text"
+              id="slika"
+              name="slika"
+              value={editedProduct.slika || ""}
+              onChange={handleInputChange}
+              className="border border-gray-300 rounded-md px-3 py-2 w-full"
+            />
+          </div>
           </div>
           <div className="flex justify-end">
             <button type="submit" className="bg-primary hover:bg-emerald-700 text-white px-4 py-2 rounded-md mr-2">
